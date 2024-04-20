@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00172D"
+    tools:context=".Activities.SplashActivity">
+
+    <RelativeLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/calibri_bold"
+            android:gravity="center"
+            android:text="Exercise App"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="240dp"
+            android:layout_height="5dp"
+            android:visibility="gone"
+            android:layout_below="@id/textViewTitle"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:background="#5098AE" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:text="For "
+            android:visibility="gone"
+            android:textAllCaps="true"
+            android:textColor="#5098AE"
+            android:fontFamily="@font/lexend_semi_bold"
+            android:layout_alignParentRight="true"
+            android:textSize="33dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lexend_semi_bold"
+        android:gravity="center"
+        android:text=""
+        android:layout_marginBottom="40dp"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

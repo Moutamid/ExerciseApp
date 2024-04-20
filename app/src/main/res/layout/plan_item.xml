@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:elevation="8dp"
+    app:cardBackgroundColor="@drawable/grey_bg"
+    app:cardCornerRadius="12dp">
+
+    <RelativeLayout
+        android:id="@+id/palyed"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/played_card"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:elevation="8dp"
+            app:cardBackgroundColor="#EDEDED"
+
+            app:cardCornerRadius="12dp"></androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/dayname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+
+        android:fontFamily="@font/calibri"
+        android:text="Day 1"
+        android:textColor="@color/black"
+        android:textSize="26dp" />
+
+    <RelativeLayout
+        android:id="@+id/play"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/grey_bg"
+        android:gravity="right"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/play_icon"
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/lock"
+            android:visibility="gone"
+            app:tint="@color/app_color" />
+
+        <ImageView
+            android:id="@+id/played_icon"
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/baseline_check_24"
+            android:visibility="gone"
+            app:tint="@color/app_color" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/start"
+        android:layout_width="65dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/grey_bg"
+        android:gravity="right"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fontFamily="@font/calibri"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/start"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

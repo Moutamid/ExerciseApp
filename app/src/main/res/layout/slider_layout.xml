@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/app_color"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="15dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/app_color"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/level_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/lexend_semi_bold"
+                android:text="Level 1"
+                android:textColor="@color/white"
+                android:textSize="42dp" />
+
+            <TextView
+                android:id="@+id/level_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_corner"
+                android:fontFamily="@font/calibri"
+                android:paddingStart="20dp"
+
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp"
+                android:text="Beginner Level"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/progress_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/progress"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/lexend_semi_bold"
+                android:text="Completed 0.0%"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="120dp"
+                android:progress="0"
+                android:progressTint="@color/white"
+                app:indicatorColor="#76B6CA"
+                app:trackColor="@color/white"
+                app:trackCornerRadius="10dp"
+                app:trackThickness="10dp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/cirlce"
+            android:layout_margin="3dp"/>
+        <View
+            android:id="@+id/view2"
+            android:layout_width="12dp"
+            android:layout_margin="3dp"
+            android:layout_height="12dp"
+            android:background="@drawable/cirlce" />
+        <View
+            android:id="@+id/view3"
+            android:layout_width="12dp"
+            android:layout_margin="3dp"
+            android:layout_height="12dp"
+            android:background="@drawable/cirlce" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/cirlce" />
+        <View
+            android:id="@+id/view5"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/cirlce" />
+
+    </LinearLayout>
+
+</LinearLayout>
