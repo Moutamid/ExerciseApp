@@ -41,6 +41,7 @@ public class SettingFragment extends Fragment {
     List<User> usersModels = new ArrayList<>();
     AppDatabase db;
     UserDao userDao;
+
     Context mcontext;
     String name, gender, weight;
     int age;

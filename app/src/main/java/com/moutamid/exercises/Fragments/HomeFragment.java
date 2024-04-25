@@ -12,8 +12,6 @@ import com.moutamid.exercises.databinding.FragmentHomeBinding;
 public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
-
-
     @SuppressLint("ResourceType")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

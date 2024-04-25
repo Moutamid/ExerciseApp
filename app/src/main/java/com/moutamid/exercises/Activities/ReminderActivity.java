@@ -33,7 +33,6 @@ public class ReminderActivity extends AppCompatActivity {
     String time, Level;
     SharedPreferences sharedPreferences;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
