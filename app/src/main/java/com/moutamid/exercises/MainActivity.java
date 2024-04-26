@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_fragment, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-        Config.storeValue("is_login", 2, MainActivity.this);
         binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelect(int i) {

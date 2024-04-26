@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    tools:context=".Activities.RestTimeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_color">
+
+        <TextView
+            android:id="@+id/rest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="190dp"
+            android:fontFamily="@font/lexend_medium"
+            android:text="Rest Time"
+            android:textColor="@color/white"
+            android:textSize="45dp" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rest"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/lexend_extra_bold"
+            android:gravity="center"
+            android:text="00:59"
+            android:textColor="@color/white"
+            android:textSize="65dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rect_bg"
+        android:orientation="vertical"
+        android:paddingBottom="30dp">
+
+
+        <ImageView
+            android:id="@+id/animation"
+            android:layout_width="130dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/next"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/background_rectangular_border_"
+            android:padding="4dp"
+            android:src="@drawable/exercise1" />
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/lexend_extra_bold"
+            android:padding="12dp"
+            android:text="Next Exercise"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/name_ex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="#F1F0F0"
+            android:fontFamily="@font/lexend_medium"
+            android:padding="12dp"
+            android:text="LATERAL RAISES"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_ex"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="-10dp"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="@color/browser_actions_bg_grey"
+            android:fontFamily="@font/lexend_medium"
+            android:padding="12dp"
+            android:text="Set Two"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/next_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_ex"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="-10dp"
+
+            android:layout_toRightOf="@id/time"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="@color/browser_actions_bg_grey"
+            android:fontFamily="@font/lexend_medium"
+            android:padding="12dp"
+            android:text="11 Reps"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

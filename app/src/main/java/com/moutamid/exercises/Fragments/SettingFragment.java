@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.moutamid.exercises.Activities.EditProfileActivity;
 import com.moutamid.exercises.Activities.LoginActivity;
 import com.moutamid.exercises.Activities.ReminderActivity;
-import com.moutamid.exercises.BuildConfig;
+//import com.moutamid.exercises.BuildConfig;
 import com.moutamid.exercises.DataBase.AppDatabase;
 import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.DataBase.UserDao;
@@ -41,7 +41,6 @@ public class SettingFragment extends Fragment {
     List<User> usersModels = new ArrayList<>();
     AppDatabase db;
     UserDao userDao;
-
     Context mcontext;
     String name, gender, weight;
     int age;
@@ -109,7 +108,7 @@ public class SettingFragment extends Fragment {
                          shareMessage = userName + " found a helpful application about moutamid exercises & face yoga, Here is the link\n\n";
 
                     }
-                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+//                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, "Choose one"));
                 } catch (Exception e) {

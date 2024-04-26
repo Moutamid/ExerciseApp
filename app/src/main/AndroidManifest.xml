@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -21,42 +21,41 @@
         android:theme="@style/Theme.JawlineExercisesFaceYoga"
         tools:replace="android:theme,android:allowBackup"
         tools:targetApi="31">
-
         <activity
-            android:name="com.moutamid.exercises.Activities.EditProfileActivity"
+            android:name=".Activities.VideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.OverviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.RestTimeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.ExerciseActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.EditProfileActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.moutamid.exercises.Activities.LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.moutamid.exercises.Activities.ReminderActivity"
+            android:name=".Activities.ReminderActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.moutamid.exercises.Activities.IntroActivity"
+            android:name=".Activities.IntroActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.moutamid.exercises.Activities.SplashActivity"
+            android:name=".Activities.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:screenOrientation="portrait" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
         <receiver
-            android:name="com.moutamid.exercises.Utils.ReminderReceiver"
+            android:name=".Utils.ReminderReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -65,10 +64,15 @@
         </receiver>
 
         <activity
-            android:name="com.moutamid.exercises.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
