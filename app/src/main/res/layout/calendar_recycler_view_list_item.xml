@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/date_pre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/day_pre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="@font/lexend_extra_bold"
+        android:padding="6dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/date_pre1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/day_pre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/cirlce"
+        android:visibility="gone"
+        android:fontFamily="@font/lexend_extra_bold"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="5"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+    <TextView
+
+        android:id="@+id/day_pre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/lexend_medium"
+        android:text="Mon"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:id="@+id/main_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_rectangular_border"
+        android:backgroundTint="@color/app_color"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/lexend_extra_bold"
+            android:padding="2dp"
+            android:text="15"
+
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <TextView
+
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/lexend_medium"
+            android:text="Mon"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/calibri"
+            android:text="Today"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
