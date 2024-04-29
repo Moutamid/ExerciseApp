@@ -24,8 +24,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.moutamid.exercises.Fragments.HistoryFragment;
 import com.moutamid.exercises.Fragments.HomeFragment;
 import com.moutamid.exercises.Fragments.SettingFragment;
-import com.moutamid.exercises.Utils.Config;
-import com.moutamid.exercises.Utils.ReminderReceiver;
 import com.moutamid.exercises.Utils.util;
 import com.moutamid.exercises.databinding.ActivityMainBinding;
 
@@ -41,13 +39,9 @@ import java.net.URL;
 import me.ibrahimsn.lib.OnItemSelectedListener;
 
 public class MainActivity extends AppCompatActivity {
-
     NavController navController;
     final int PERMISSION_REQUEST_CODE = 112;
-
     private ActivityMainBinding binding;
-    public static String TimeUser, repeattime;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 getNotificationPermission();
             }
         }
-        setNotificationsReminder();
         navController = Navigation.findNavController(this, R.id.main_fragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -96,17 +89,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void setNotificationsReminder() {
-
-        Intent intent = new Intent(getApplicationContext(), ReminderReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_IMMUTABLE);
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 100, pendingIntent);
-
-        ComponentName componentName = new ComponentName(getApplicationContext(), ReminderReceiver.class);
-        PackageManager packageManager = getPackageManager();
-        packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-    }
 
     @Override
     public void onBackPressed() {

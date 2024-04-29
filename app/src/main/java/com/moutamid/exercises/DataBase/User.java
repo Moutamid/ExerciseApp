@@ -4,17 +4,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
 public class User {
-    @PrimaryKey(autoGenerate = true)
     public int uid;
-    @ColumnInfo(name = "gender")
     public String gender;
-    @ColumnInfo(name = "name")
     public String name;
-    @ColumnInfo(name = "age")
     public int age;
-    @ColumnInfo(name = "weight")
     public String weight;
 
     public User(String gender, String name, int age, String weight) {

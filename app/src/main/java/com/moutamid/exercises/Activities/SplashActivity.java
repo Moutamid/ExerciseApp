@@ -7,7 +7,9 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
+import com.fxn.stash.Stash;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
 import com.moutamid.exercises.Utils.Config;
@@ -15,7 +17,7 @@ import com.moutamid.exercises.Utils.util;
 
 public class SplashActivity extends AppCompatActivity {
     Handler handler;
-    private int SPLASH_TIME = 3000;
+    private int SPLASH_TIME = 1700;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +30,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent;
-
-                if (GoogleSignIn.getLastSignedInAccount(SplashActivity.this) == null && AccessToken.getCurrentAccessToken() == null&& Config.getValue("is_login", SplashActivity.this) != 2) {
-                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                User user = (User) Stash.getObject("user", User.class);
+                if (user==null)
+                {intent = new Intent(SplashActivity.this, IntroActivity.class);
 
                 } else {
                     intent = new Intent(SplashActivity.this, MainActivity.class);

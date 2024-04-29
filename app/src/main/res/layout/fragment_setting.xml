@@ -148,7 +148,7 @@
             android:fontFamily="@font/calibri"
             android:gravity="center"
             android:text="Personal Info"
-
+android:visibility="gone"
             android:textColor="#7A6E6E"
             android:textSize="13dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView5"
@@ -159,6 +159,8 @@
             android:id="@+id/profile"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:visibility="gone"
+
             android:src="@drawable/arrow"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,152 +180,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 android:visibility="gone">
 
-                >
-
-                <TextView
-                    android:id="@+id/textView8"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:fontFamily="@font/calibri_bold"
-                    android:text="General Settings"
-                    android:textColor="@color/black"
-                    android:textSize="20dp" />
-
-                <RelativeLayout
-                    android:id="@+id/rlLanguage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    tools:layout_editor_absoluteX="20dp">
-
-                    <ImageView
-
-                        android:id="@+id/imageView1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/cirlce_bg"
-                        android:backgroundTint="#53B4FF"
-                        android:padding="8dp"
-                        android:src="@drawable/language" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/imageView1"
-
-                        android:fontFamily="@font/calibri"
-                        android:text="Language"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/arrow" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
-                    tools:layout_editor_absoluteX="20dp">
-
-                    <ImageView
-
-                        android:id="@+id/imageView"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/cirlce_bg"
-                        android:backgroundTint="#FF77E8"
-                        android:padding="8dp"
-                        android:src="@drawable/restore_purchase" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/imageView"
-                        android:fontFamily="@font/calibri"
-                        android:text="Buy a Coffee"
-                        android:textColor="@color/black"
-
-                        android:textSize="16dp" />
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/arrow" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rlReminder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
-                    tools:layout_editor_absoluteX="20dp">
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/cirlce_bg"
-                        android:backgroundTint="#8682F9"
-                        android:padding="8dp"
-                        android:src="@drawable/reminder" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/imageView2"
-                        android:fontFamily="@font/calibri"
-                        android:text="Reminder"
-                        android:textColor="@color/black"
-
-                        android:textSize="18dp" />
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/arrow" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-android:visibility="gone"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="18dp"
                     android:fontFamily="@font/calibri_bold"
                     android:text="Exercise Settings"
                     android:textColor="@color/black"

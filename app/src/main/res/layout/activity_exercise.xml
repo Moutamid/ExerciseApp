@@ -59,7 +59,7 @@
             android:textSize="33dp" />
 
         <TextView
-            android:id="@+id/percentage"
+            android:id="@+id/sets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/percentage"
+            android:layout_below="@+id/sets"
             android:layout_marginStart="40dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/lexend_semi_bold"
@@ -95,7 +95,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/percentage"
+            android:layout_below="@+id/sets"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="30dp"

@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Exercise App</string>
-    <string name="jawline_exercise">Exercise App Exercise</string>
+    <string name="app_name">Office GYM</string>
     <string name="my_gender">My Gender</string>
     <string name="my_name">My Name is</string>
     <string name="my_age">My Age is</string>

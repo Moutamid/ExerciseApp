@@ -14,10 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.faisalkhan.seekbar.bidirectionalseekbar.BiDirectionalSeekBar;
+import com.fxn.stash.Stash;
 import com.google.gson.Gson;
-import com.moutamid.exercises.DataBase.AppDatabase;
-import com.moutamid.exercises.DataBase.Reminder;
-import com.moutamid.exercises.DataBase.UserDao;
+import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
 import com.moutamid.exercises.Utils.util;
@@ -38,8 +37,7 @@ public class IntroActivity extends AppCompatActivity {
     int selectedAge;
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a", Locale.US);
     private ActivityIntroBinding binding;
-    AppDatabase db;
-    UserDao userDao;
+
     SharedPreferences sharedPreferences;
 
     @Override
@@ -48,14 +46,8 @@ public class IntroActivity extends AppCompatActivity {
         util.changeStatusBarColor(this);
         binding = ActivityIntroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        db = AppDatabase.getDatabase(this);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         binding.tvTime.setText(getString(R.string.default_reminder_text));
-        userDao = db.userDao();
-//        String name1 = getIntent().getStringExtra("name");
-//        if (name1.length() > 1) {
-//            binding.nameedt.setText(name1);
-//        }
         binding.layout1.setVisibility(View.VISIBLE);
         binding.layout2.setVisibility(View.GONE);
         binding.layout3.setVisibility(View.GONE);
@@ -146,98 +138,9 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        binding.mview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar currentTime = Calendar.getInstance();
-                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = currentTime.get(Calendar.MINUTE);
-                TimePickerDialog timePickerDialog;
-                timePickerDialog = new TimePickerDialog(IntroActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(Calendar.MINUTE, minute);
-                        time = simpleDateFormat.format(calendar.getTime());
-
-                        binding.tvTime.setText(time);
-                        showDialog();
-                    }
-                }, hour, minute, false);
-                timePickerDialog.show();
-            }
-        });
-
     }
 
-    public void showDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(ReminderActivity.this);
-//        DialogRepeateDaysBinding dialogBinding = DialogRepeateDaysBinding.inflate(getLayoutInflater());
-//        builder.setView(dialogBinding.getRoot());
-//
-//        CheckBox cb_sun = dialogBinding.cbSun;
-//        CheckBox cb_mon = dialogBinding.cbMon;
-//        CheckBox cb_tue = dialogBinding.cbTue;
-//        CheckBox cb_wed = dialogBinding.cbWed;
-//        CheckBox cb_thu = dialogBinding.cbThu;
-//        CheckBox cb_fri = dialogBinding.cbFri;
-//        CheckBox cb_sat = dialogBinding.cbSat;
-//
-//        final List<CheckBox> checkBoxes = new ArrayList<>();
-//        checkBoxes.add(cb_mon);
-//        checkBoxes.add(cb_tue);
-//        checkBoxes.add(cb_wed);
-//        checkBoxes.add(cb_thu);
-//        checkBoxes.add(cb_fri);
-//        checkBoxes.add(cb_sat);
-//        checkBoxes.add(cb_sun);
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-//        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-//        builder.setTitle(getResources().getString(R.string.repeat));
-//        final List<String> list = new ArrayList<>();
-//
-//        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//                binding.tvDays.setText(Level);
-//
-//            }
-//        });
-//
-//        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-        final List<String> list = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            list.add(util.getReminderDaysList().get(i));
 
-        }
-        String Level = new Gson().toJson(list);
-        insertReminder(time, Level, true);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("time", time);
-        editor.putString("days", Level);
-        editor.apply();
-    }
-
-    public void insertReminder(String time, String repeat, boolean isOn) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                userDao.insertReminder(new Reminder(time, repeat, isOn));
-            }
-        }).start();
-    }
 
     public void lay1(View view) {
         binding.layout2.setVisibility(View.VISIBLE);
@@ -277,61 +180,27 @@ public class IntroActivity extends AppCompatActivity {
 
     public void lay4(View view) {
         if (!binding.weightedt.getText().toString().isEmpty()) {
-            weight = binding.weightedt.getText().toString() + Type;
-            binding.layout5.setVisibility(View.VISIBLE);
+            weight = binding.weightedt.getText().toString();
+            binding.layout5.setVisibility(View.GONE);
             binding.layout1.setVisibility(View.GONE);
             binding.layout2.setVisibility(View.GONE);
             binding.layout3.setVisibility(View.GONE);
-            binding.layout4.setVisibility(View.GONE);
+            binding.layout4.setVisibility(View.VISIBLE);
             binding.layout6.setVisibility(View.GONE);
+
+            User user = new User(gender, name, selectedAge, weight);
+            Stash.put("user", user);
+            Stash.put("exercise_no", 1);
+            Stash.put("exercise_no", 1);
+            Stash.put("user_name", name);
+            Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             Toast.makeText(this, "Please Enter Your Weight", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void lay5(View view) {
-//        if (binding.tvTime.getText().toString().equals(getString(R.string.default_reminder_text))) {
-//            Toast.makeText(this, "Select Time Before", Toast.LENGTH_SHORT).show();
-//        } else {
-//            new bgThread().start();
 
-//            binding.layout6.setVisibility(View.VISIBLE);
-//            binding.layout1.setVisibility(View.GONE);
-//            binding.layout2.setVisibility(View.GONE);
-//            binding.layout3.setVisibility(View.GONE);
-//            binding.layout4.setVisibility(View.GONE);
-//            binding.layout5.setVisibility(View.GONE);
-//            int animationDuration = 2500; // 2500ms = 2,5s
-//            binding.progress.setProgressWithAnimation(100, animationDuration); // Default duration = 1500ms
-//            handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    binding.tvTime.setText("");
-        // Perform the transition to the new activity
-        final List<String> list = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            list.add(util.getReminderDaysList().get(i));
-
-        }
-        String Level = new Gson().toJson(list);
-        insertReminder(time, Level, true);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("time", time);
-        editor.putString("days", Level);
-        editor.apply();
-        Intent intent = new Intent(IntroActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    class bgThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-//            userDao.insert(new User(gender, name, selectedAge, weight));
-
-        }
-    }
 
 }

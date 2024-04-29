@@ -13,11 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.moutamid.exercises.Adapter.CalendarRecyclerViewAdapter;
-import com.moutamid.exercises.Model.DateModelClass;
-import com.moutamid.exercises.R;
-import com.moutamid.exercises.databinding.FragmentHistoryBinding;
 import com.google.firebase.FirebaseApp;
+import com.moutamid.exercises.Adapter.CalendarRecyclerViewAdapter;
+import com.moutamid.exercises.Adapter.ExerciseAdapter;
+import com.moutamid.exercises.DataBase.Exercise;
+import com.moutamid.exercises.DataBase.ExerciseDbHelper;
+import com.moutamid.exercises.Model.DateModelClass;
+import com.moutamid.exercises.databinding.FragmentHistoryBinding;
 
 import org.joda.time.Days;
 import org.joda.time.DurationFieldType;
@@ -39,6 +41,9 @@ public class HistoryFragment extends Fragment {
     private ArrayList<DateModelClass> dateArrayList;
 
     private List<LocalDate> dates;
+    private ExerciseDbHelper dbHelper;
+    private ExerciseAdapter adapter;
+    private String targetDate;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +57,12 @@ public class HistoryFragment extends Fragment {
         dateArrayList = new ArrayList<>();
         FirebaseApp.initializeApp(getContext());
         Calendar(getContext(), getActivity());
-
+        dbHelper = new ExerciseDbHelper(getContext());
+        targetDate = "2024-04-29";
+        List<Exercise> exercises = dbHelper.getExercisesByDate(targetDate);
+        binding.myRecyclerViewTrack.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new ExerciseAdapter(exercises);
+        binding.myRecyclerViewTrack.setAdapter(adapter);
         return binding.getRoot();
 
     }

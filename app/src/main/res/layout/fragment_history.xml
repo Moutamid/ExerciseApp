@@ -14,11 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:fontFamily="@font/calibri_bold"
+        android:fontFamily="@font/lexend_medium"
         android:text="Tracking"
         android:textColor="@color/black"
         android:textSize="36dp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +41,16 @@
         android:textStyle="bold" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monthYear"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:scrollbars="horizontal" />   <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view_track"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/monthYear"

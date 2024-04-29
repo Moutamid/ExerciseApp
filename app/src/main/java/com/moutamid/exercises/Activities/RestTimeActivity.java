@@ -1,16 +1,16 @@
 package com.moutamid.exercises.Activities;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fxn.stash.Stash;
 import com.moutamid.exercises.R;
-import com.moutamid.exercises.Utils.Config;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,14 +18,52 @@ public class RestTimeActivity extends AppCompatActivity {
     int noOfMinutes = 1 * 60 * 1000;
     CountDownTimer countDownTimer;
     long lefttime;
-    TextView count;
+    TextView count, name_ex, sets, reps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_time);
-        count=findViewById(R.id.count);
-       countDownTimer(noOfMinutes);
+        count = findViewById(R.id.count);
+        sets = findViewById(R.id.sets);
+        reps = findViewById(R.id.reps);
+        name_ex = findViewById(R.id.name_ex);
+        countDownTimer(noOfMinutes);
+        int currentExercise = Stash.getInt("exercise_no", 1);
+        int currentSet = Stash.getInt("exercise_sets", 1);
+        switch (currentSet) {
+            case 1:
+                sets.setText("Set One");
+                reps.setText("12 Reps");
+                break;
+            case 2:
+                sets.setText("Set Two");
+                reps.setText("11 Reps");
+                break;
+            case 3:
+                sets.setText("Set Three");
+                reps.setText("10 Reps");
+                break;
+        }
+        switch (currentExercise) {
+            case 1:
+
+                name_ex.setText("LATERAL RAISES");
+                break;
+            case 2:
+                name_ex.setText("TRICEPS EXTENSIONS");
+                break;
+            case 3:
+
+                name_ex.setText("LEG EXTENSIONS");
+                break;
+            case 4:
+                name_ex.setText("LEG CURLS");
+                break;
+            case 5:
+                name_ex.setText("STANDING KICKBACKS");
+                break;
+        }
     }
     public void countDownTimer(long time) {
         countDownTimer = new CountDownTimer(time, 1000) {
@@ -44,8 +82,8 @@ public class RestTimeActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                startActivity(new Intent(RestTimeActivity.this, ExerciseActivity.class));
                 finish();
-
             }
         }.start();
 

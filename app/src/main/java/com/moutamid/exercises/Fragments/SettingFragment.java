@@ -3,9 +3,7 @@ package com.moutamid.exercises.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,16 +13,12 @@ import android.widget.CompoundButton;
 
 import androidx.fragment.app.Fragment;
 
+import com.fxn.stash.Stash;
 import com.moutamid.exercises.Activities.EditProfileActivity;
 import com.moutamid.exercises.Activities.LoginActivity;
-import com.moutamid.exercises.Activities.ReminderActivity;
-//import com.moutamid.exercises.BuildConfig;
-import com.moutamid.exercises.DataBase.AppDatabase;
 import com.moutamid.exercises.DataBase.User;
-import com.moutamid.exercises.DataBase.UserDao;
 import com.moutamid.exercises.R;
 import com.moutamid.exercises.Utils.Config;
-import com.moutamid.exercises.Utils.CustomDialogClass;
 import com.moutamid.exercises.Utils.DeleteDialogClass;
 import com.moutamid.exercises.Utils.FeedBackDialogClass;
 import com.moutamid.exercises.Utils.RateDialogClass;
@@ -39,8 +33,7 @@ import java.util.Locale;
 public class SettingFragment extends Fragment {
     FragmentSettingBinding binding;
     List<User> usersModels = new ArrayList<>();
-    AppDatabase db;
-    UserDao userDao;
+
     Context mcontext;
     String name, gender, weight;
     int age;
@@ -50,17 +43,11 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSettingBinding.inflate(inflater, container, false);
-        db = AppDatabase.getDatabase(getContext());
-        userDao = db.userDao();
-        String userName = Config.getStringValue("user_name", getActivity());
-        if (userName.equals("Guest1")) {
-            binding.textView6.setText("Guest");
+        String userName = Stash.getString("user_name");
 
-        } else {
-            binding.textView6.setText(userName);
+        binding.textView6.setText(userName);
 
 
-        }
         char c = userName.charAt(0);
         binding.textView5.setText(c + "");
         vibration_mode();
@@ -78,22 +65,8 @@ public class SettingFragment extends Fragment {
                 }
             }
         });
-        binding.rlLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CustomDialogClass cdd = new CustomDialogClass(getActivity());
-                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                cdd.setCanceledOnTouchOutside(true);
-                cdd.show();
-            }
-        });
 
-        binding.rlReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getContext().startActivity(new Intent(getContext(), ReminderActivity.class));
-            }
-        });
+
         binding.rlShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,13 +75,7 @@ public class SettingFragment extends Fragment {
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
                     String shareMessage;
-                    if (c == 'G') {
-                         shareMessage = "Exercise App Exercises & Face Yoga app is helpful for making your face attractive, Here is the link to download\n\n";
-                    } else {
-                         shareMessage = userName + " found a helpful application about moutamid exercises & face yoga, Here is the link\n\n";
-
-                    }
-//                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+                    shareMessage = "Office GYM\n Portable Fitness System\n\n";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, "Choose one"));
                 } catch (Exception e) {
