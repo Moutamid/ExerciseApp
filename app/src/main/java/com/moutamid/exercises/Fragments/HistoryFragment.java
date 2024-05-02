@@ -37,6 +37,7 @@ public class HistoryFragment extends Fragment {
     boolean changeDetected = false;
     boolean scrollPager = true;
     boolean clicked = false;
+
     public static LocalDate selected;
     private ArrayList<DateModelClass> dateArrayList;
 

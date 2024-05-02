@@ -33,8 +33,7 @@ import java.util.Locale;
 public class SettingFragment extends Fragment {
     FragmentSettingBinding binding;
     List<User> usersModels = new ArrayList<>();
-
-    Context mcontext;
+        Context mcontext;
     String name, gender, weight;
     int age;
     int i = (int) (0.33 * 60 * 1000);

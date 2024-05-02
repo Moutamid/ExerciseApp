@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getContext(), OverviewActivity.class));
             }
         });
-
         binding.exerciseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
