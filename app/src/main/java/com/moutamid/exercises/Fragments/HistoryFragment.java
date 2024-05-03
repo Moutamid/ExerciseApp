@@ -148,7 +148,6 @@ Log.d("dateeee", todayDate.getMonthOfYear()+"  "+ todayDate.getYear());
 
     }
 
-
     private String getMonthName(int month) {
 
         switch (month) {
