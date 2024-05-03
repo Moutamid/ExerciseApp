@@ -85,14 +85,13 @@ public class HistoryFragment extends Fragment {
     @SuppressLint("ResourceAsColor")
     private void initControl(Context context, Activity activity) {
 
-
         binding.monthYear.setBackgroundColor(com.moutamid.exercises.R.color.app_color);
         setUpRecyclerView(context);
         setUpListeners(context);
     }
 
     private void setUpListeners(final Context context) {
-
+Log.d("dateeee", todayDate.getMonthOfYear()+"  "+ todayDate.getYear());
         setMonthYearText(getMonthName(todayDate.getMonthOfYear()), "" + todayDate.getYear());
         LocalDate t = new LocalDate();
         if (selected != null && !selected.isEqual(t)) {

@@ -10,12 +10,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
+import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
+import com.moutamid.exercises.Utils.NotificationHelper;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class RestTimeActivity extends AppCompatActivity {
-    int noOfMinutes = 1 * 60 * 1000;
+    int noOfMinutes = 1 * 3 * 1000;
     CountDownTimer countDownTimer;
     long lefttime;
     TextView count, name_ex, sets, reps;
@@ -28,9 +31,46 @@ public class RestTimeActivity extends AppCompatActivity {
         sets = findViewById(R.id.sets);
         reps = findViewById(R.id.reps);
         name_ex = findViewById(R.id.name_ex);
-        countDownTimer(noOfMinutes);
+
         int currentExercise = Stash.getInt("exercise_no", 1);
         int currentSet = Stash.getInt("exercise_sets", 1);
+
+        if (currentSet == 1) {
+            int noOfMinutes = 1 * 5 * 1000;
+            countDownTimer(noOfMinutes);
+
+
+        } else {
+//            int noOfMinutes = 1 * 60 * 1000;
+            countDownTimer(noOfMinutes);
+
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int streak = Stash.getInt("Streak", 0);
+        int streak_day = Stash.getInt("Streak_Day", 0);
+        Log.d("day", dayOfWeek + "  day" + streak + "  Streak" + streak_day + "streakDay");
+        if (dayOfWeek == 2 || dayOfWeek == 5 || dayOfWeek == 6) {
+            if (dayOfWeek == 2 && streak_day == 6) {
+                Stash.put("Streak_Day", dayOfWeek);
+                Stash.put("Streak", streak++);
+                Log.d("day", "Condition 1 execute");
+            } else if (dayOfWeek == 5 && streak_day == 2) {
+                Stash.put("Streak_Day", dayOfWeek);
+                Stash.put("Streak", streak++);
+                Log.d("day", "Condition 2 execute");
+            } else if (dayOfWeek == 6 && streak_day == 5) {
+                Stash.put("Streak_Day", dayOfWeek);
+                Stash.put("Streak", streak++);
+                Log.d("day", "Condition 3 execute");
+            } else {
+                Stash.put("Streak_Day", dayOfWeek);
+                Stash.put("Streak", 1);
+                Log.d("day", "Condition 4 execute");
+            }
+        }
+
         switch (currentSet) {
             case 1:
                 sets.setText("Set One");
@@ -69,6 +109,9 @@ public class RestTimeActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(time, 1000) {
             public void onTick(long millisUntilFinished) {
                 lefttime = millisUntilFinished;
+                if (lefttime < 32891 && lefttime > 31890) {
+                    NotificationHelper.showTapNotification(RestTimeActivity.this, "Break Reminder", "Take short breaks, do desk exercises daily.");
+                }
                 Log.d("lefttieme", lefttime+"");
                 String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(lefttime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(lefttime)), TimeUnit.MILLISECONDS.toSeconds(lefttime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(lefttime)));
                 count.setText(hms);
@@ -78,7 +121,8 @@ public class RestTimeActivity extends AppCompatActivity {
                     play_voice(R.raw.two);
                 }else if (lefttime<2000 && lefttime> 1000) {
                     play_voice(R.raw.one);
-                }}
+                 }
+            }
 
             @Override
             public void onFinish() {
@@ -89,14 +133,53 @@ public class RestTimeActivity extends AppCompatActivity {
 
     }
 
+    public void countDownTimerLast(long time) {
+        countDownTimer = new CountDownTimer(time, 1000) {
+            public void onTick(long millisUntilFinished) {
+                lefttime = millisUntilFinished;
+                Log.d("lefttieme", lefttime + "");
+                String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(lefttime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(lefttime)), TimeUnit.MILLISECONDS.toSeconds(lefttime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(lefttime)));
+                count.setText(hms);
+                if (lefttime < 4000 && lefttime > 3000) {
+                    play_voice(R.raw.three);
+                } else if (lefttime < 3000 && lefttime > 2000) {
+                    play_voice(R.raw.two);
+                } else if (lefttime < 2000 && lefttime > 1000) {
+                    play_voice(R.raw.one);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                startActivity(new Intent(RestTimeActivity.this, MainActivity.class));
+                finish();
+            }
+        }.start();
+
+    }
+
     public void play_voice(int voice) {
-            MediaPlayer mp = MediaPlayer.create(this, voice);
-            mp.start();
+        MediaPlayer mp = MediaPlayer.create(this, voice);
+        mp.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-    countDownTimer.cancel();
+        countDownTimer.cancel();
     }
+
+    private String getDayKey(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            default:
+                return "";
+        }
+    }
+
 }

@@ -14,6 +14,8 @@ import com.fxn.stash.Stash;
 import com.moutamid.exercises.Activities.AllExercisesActivity;
 import com.moutamid.exercises.Activities.ExerciseActivity;
 import com.moutamid.exercises.Activities.OverviewActivity;
+import com.moutamid.exercises.Utils.NotificationHelper;
+import com.moutamid.exercises.Utils.NotificationScheduler;
 import com.moutamid.exercises.Utils.ResumeDialogClass;
 import com.moutamid.exercises.databinding.FragmentHomeBinding;
 
@@ -34,6 +36,8 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getContext(), OverviewActivity.class));
             }
         });
+        binding.streak.setText(Stash.getInt("Streak", 0)+"");
+
         binding.exerciseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,6 +46,9 @@ public class HomeFragment extends Fragment {
         });   binding.startLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 Calendar calendar = Calendar.getInstance();
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.FRIDAY) {

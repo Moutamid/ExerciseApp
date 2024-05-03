@@ -139,7 +139,7 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<CalendarRe
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "test"+ mDataset.get(position).getDayOfMonth(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "test"+ mDataset.get(position).getDayOfMonth(), Toast.LENGTH_SHORT).show();
             }
         });
     }

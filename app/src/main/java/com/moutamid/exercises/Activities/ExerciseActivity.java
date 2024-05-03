@@ -193,7 +193,6 @@
 package com.moutamid.exercises.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -209,15 +208,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fxn.stash.Stash;
 import com.moutamid.exercises.DataBase.ExerciseDbHelper;
 import com.moutamid.exercises.DataBase.User;
+import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class ExerciseActivity extends AppCompatActivity {
     private VideoView videoView;
     private ImageView play, pause;
-    private TextView timerTextView, reps, next_btn, name, details, sets, streakTextView;
+    private TextView timerTextView, reps, next_btn, name, details, sets;
     private long startTime = 0;
     String videoPath;
     private Handler timerHandler = new Handler();
@@ -229,8 +226,6 @@ public class ExerciseActivity extends AppCompatActivity {
     int minutes;
     private ExerciseDbHelper dbHelper;
 
-    private int streak = 0;
-    private SharedPreferences sharedPreferences;
 
     private Runnable timerRunnable = new Runnable() {
         @Override
@@ -260,19 +255,14 @@ public class ExerciseActivity extends AppCompatActivity {
         videoView = findViewById(R.id.video_view);
         timerTextView = findViewById(R.id.duration);
         reps = findViewById(R.id.reps);
-        streakTextView = findViewById(R.id.streak_text_view);
         currentExercise = Stash.getInt("exercise_no", 1);
         currentSet = Stash.getInt("exercise_sets", 1);
+        Log.d("dataaa", currentExercise + "   "+currentSet);
         User user = (User) Stash.getObject("user", User.class);
         weight = user.weight;
         play = findViewById(R.id.play);
         pause = findViewById(R.id.pause);
 
-        sharedPreferences = getSharedPreferences("ExercisePrefs", MODE_PRIVATE);
-        streak = sharedPreferences.getInt("streak", 0);
-
-        // Check streak at the beginning
-        checkStreak();
 
         switch (currentSet) {
             case 1:
@@ -372,7 +362,16 @@ public class ExerciseActivity extends AppCompatActivity {
 
     public void next(View view) {
         storeExerciseData(name.getText().toString() + " (Set " + currentSet + ")", minutes, currentSet);
+        if (currentSet == 3 && currentExercise == 5) {
+            Stash.put("exercise_no", 1);
+            Stash.put("exercise_no", 1);
+//            startActivity(new Intent(this, MainActivity.class));
+            finish();
 
+        } else {
+            startActivity(new Intent(this, RestTimeActivity.class));
+            finish();
+        }
         if (currentSet == 3) {
             currentExercise++; // Move to next exercise
             currentSet = 1; // Reset set to 1
@@ -383,8 +382,6 @@ public class ExerciseActivity extends AppCompatActivity {
         Stash.put("exercise_no", currentExercise);
         Stash.put("exercise_sets", currentSet);
 
-        startActivity(new Intent(this, RestTimeActivity.class));
-        finish();
     }
 
     public void back(View view) {
@@ -395,60 +392,4 @@ public class ExerciseActivity extends AppCompatActivity {
         long newRowId = dbHelper.addExercise(exerciseName, minutes, calories_burn);
     }
 
-    // Check streak and update streak count
-    private void checkStreak() {
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-        // Monday: 2, Thursday: 5, Friday: 6
-        if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.FRIDAY) {
-            // If it's Monday, Thursday, or Friday
-            // Check if the user exercised on these days
-            boolean didExerciseToday = sharedPreferences.getBoolean(getDayKey(dayOfWeek), false);
-
-            if (didExerciseToday) {
-                // If user exercised today, increment streak
-                streak++;
-            } else {
-                // If user didn't exercise today, reset streak to 0
-                streak = 0;
-            }
-
-            // Update UI to display streak count
-            streakTextView.setText("Streak: " + streak);
-        }
-    }
-
-    // Mark today as exercised
-    private void markTodayAsExercised() {
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-        // Monday: 2, Thursday: 5, Friday: 6
-        if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.FRIDAY) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(getDayKey(dayOfWeek), true);
-            editor.apply();
-        }
-    }
-
-    // Reset streak count to 0
-    private void resetStreak() {
-        streak = 0;
-        streakTextView.setText("Streak: " + streak);
-    }
-
-    // Get SharedPreferences key for a specific day of the week
-    private String getDayKey(int dayOfWeek) {
-        switch (dayOfWeek) {
-            case Calendar.MONDAY:
-                return "Monday";
-            case Calendar.THURSDAY:
-                return "Thursday";
-            case Calendar.FRIDAY:
-                return "Friday";
-            default:
-                return "";
-        }
-    }
 }

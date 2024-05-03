@@ -192,6 +192,7 @@ public class IntroActivity extends AppCompatActivity {
             Stash.put("user", user);
             Stash.put("exercise_no", 1);
             Stash.put("exercise_no", 1);
+            Stash.put("Streak", 0);
             Stash.put("user_name", name);
             Intent intent = new Intent(IntroActivity.this, MainActivity.class);
             startActivity(intent);

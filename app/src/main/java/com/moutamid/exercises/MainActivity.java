@@ -24,6 +24,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import com.moutamid.exercises.Fragments.HistoryFragment;
 import com.moutamid.exercises.Fragments.HomeFragment;
 import com.moutamid.exercises.Fragments.SettingFragment;
+import com.moutamid.exercises.Utils.NotificationHelper;
+import com.moutamid.exercises.Utils.NotificationScheduler;
 import com.moutamid.exercises.Utils.util;
 import com.moutamid.exercises.databinding.ActivityMainBinding;
 
@@ -65,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_fragment, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+//        NotificationHelper.createNotificationChannel(MainActivity.this);
+        NotificationScheduler.scheduleNotifications(this);
+
         binding.bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelect(int i) {

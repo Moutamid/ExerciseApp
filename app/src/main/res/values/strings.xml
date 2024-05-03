@@ -40,6 +40,7 @@
 
     <string name="number_picker_formatter">%02d</string>
     <string name="calibri_bold">calibri_bold</string>
+    <string name="default_notification_channel_id">Office_GYM</string>
 
 
 </resources>
