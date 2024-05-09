@@ -282,20 +282,17 @@ public class ExerciseActivity extends AppCompatActivity {
             case 1:
                 videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1;
                 name.setText("LATERAL RAISES");
-                details.setText("While reviewing workload and planning day");
                 MET = 3;
                 break;
             case 2:
                 videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video2;
                 name.setText("TRICEPS EXTENSIONS");
-                details.setText("While reading, sorting, prioritizing, saving emails");
-                MET = 3;
+                 MET = 3;
                 break;
             case 3:
                 videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video3;
                 name.setText("LEG EXTENSIONS");
-                details.setText("while responding to correspondence/initiating contacts");
-                MET = 3.5;
+               MET = 3.5;
                 break;
             case 4:
                 videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video4;

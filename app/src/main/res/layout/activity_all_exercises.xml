@@ -574,9 +574,42 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/lexend_extra_bold"
-            android:text="When should do?"
+            android:text="Videos about exercise"
             android:textColor="@color/app_color"
             android:textSize="16sp" />
+        <RelativeLayout
+            android:id="@+id/exercise1"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/background_rectangular_border">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img1"
+                android:backgroundTint="@color/black"
+                android:background="@drawable/background_rectangular_border"
+ />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_rectangular_border"
+                android:backgroundTint="#99000000"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                android:fontFamily="@font/lexend_extra_bold"
+                android:padding="12dp"
+                android:text="Lateral Raises"
+                android:textColor="@color/white"
+                android:textSize="21sp" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"

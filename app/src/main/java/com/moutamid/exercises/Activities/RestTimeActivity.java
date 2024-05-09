@@ -115,13 +115,13 @@ public class RestTimeActivity extends AppCompatActivity {
                 Log.d("lefttieme", lefttime+"");
                 String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(lefttime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(lefttime)), TimeUnit.MILLISECONDS.toSeconds(lefttime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(lefttime)));
                 count.setText(hms);
-                 if (lefttime<4000 && lefttime> 3000) {
-                    play_voice(R.raw.three);
-                }else if (lefttime<3000 && lefttime> 2000) {
-                    play_voice(R.raw.two);
-                }else if (lefttime<2000 && lefttime> 1000) {
-                    play_voice(R.raw.one);
-                 }
+//                 if (lefttime<4000 && lefttime> 3000) {
+//                    play_voice(R.raw.three);
+//                }else if (lefttime<3000 && lefttime> 2000) {
+//                    play_voice(R.raw.two);
+//                }else if (lefttime<2000 && lefttime> 1000) {
+//                    play_voice(R.raw.one);
+//                 }
             }
 
             @Override
@@ -140,13 +140,13 @@ public class RestTimeActivity extends AppCompatActivity {
                 Log.d("lefttieme", lefttime + "");
                 String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(lefttime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(lefttime)), TimeUnit.MILLISECONDS.toSeconds(lefttime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(lefttime)));
                 count.setText(hms);
-                if (lefttime < 4000 && lefttime > 3000) {
-                    play_voice(R.raw.three);
-                } else if (lefttime < 3000 && lefttime > 2000) {
-                    play_voice(R.raw.two);
-                } else if (lefttime < 2000 && lefttime > 1000) {
-                    play_voice(R.raw.one);
-                }
+//                if (lefttime < 4000 && lefttime > 3000) {
+//                    play_voice(R.raw.three);
+//                } else if (lefttime < 3000 && lefttime > 2000) {
+//                    play_voice(R.raw.two);
+//                } else if (lefttime < 2000 && lefttime > 1000) {
+//                    play_voice(R.raw.one);
+//                }
             }
 
             @Override

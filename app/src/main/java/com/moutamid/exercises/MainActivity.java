@@ -49,11 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         util.changeStatusBarColor(this);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        checkApp(MainActivity.this);
-        setContentView(view);
-        if (Build.VERSION.SDK_INT > 32) {
+       if (Build.VERSION.SDK_INT > 32) {
             if (!shouldShowRequestPermissionRationale("112")) {
                 getNotificationPermission();
             }
