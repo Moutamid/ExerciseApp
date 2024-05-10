@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class RestTimeActivity extends AppCompatActivity {
-    int noOfMinutes = 1 * 3 * 1000;
+    int noOfMinutes = 1 * 60 * 1000;
     CountDownTimer countDownTimer;
     long lefttime;
     TextView count, name_ex, sets, reps;
@@ -36,7 +36,7 @@ public class RestTimeActivity extends AppCompatActivity {
         int currentSet = Stash.getInt("exercise_sets", 1);
 
         if (currentSet == 1) {
-            int noOfMinutes = 1 * 5 * 1000;
+            int noOfMinutes = 10 * 60 * 1000;
             countDownTimer(noOfMinutes);
 
 
@@ -109,7 +109,7 @@ public class RestTimeActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(time, 1000) {
             public void onTick(long millisUntilFinished) {
                 lefttime = millisUntilFinished;
-                if (lefttime < 32891 && lefttime > 31890) {
+                if (lefttime < 32938 && lefttime > 30936) {
                     NotificationHelper.showTapNotification(RestTimeActivity.this, "Break Reminder", "Take short breaks, do desk exercises daily.");
                 }
                 Log.d("lefttieme", lefttime+"");

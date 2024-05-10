@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ExerciseDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -51,7 +52,7 @@ public class ExerciseDbHelper extends SQLiteOpenHelper {
         values.put(ExerciseContract.ExerciseEntry.COLUMN_NAME_EXERCISE, exerciseName);
         values.put(ExerciseContract.ExerciseEntry.COLUMN_NAME_MINUTES, minutes);
         values.put(ExerciseContract.ExerciseEntry.COLUMN_NAME_CALORIES_BURN, caloriesBurned);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d", Locale.ENGLISH);
         String currentDate = sdf.format(new Date());
         values.put(ExerciseContract.ExerciseEntry.COLUMN_NAME_DATE, currentDate);
         Log.d("values", values + " parameterss");

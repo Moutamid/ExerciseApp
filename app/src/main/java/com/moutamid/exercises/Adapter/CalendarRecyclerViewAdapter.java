@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -84,7 +85,7 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<CalendarRe
         for (int i = 0; i < dateArrayList.size(); i++) {
             if (mDataset.get(position).getDayOfMonth() == dateArrayList.get(i).getDay() && (dateArrayList.get(i).getMonth() - mDataset.get(position).getDayOfWeek()) == 1 && mDataset.get(position).getYear() == dateArrayList.get(i).getYear()) {
                 holder.date_pre1.setVisibility(View.VISIBLE);
-                Log.d("size", mDataset.get(position).getDayOfMonth()+"  "+dateArrayList.get(i).getDay()+"   "+dateArrayList.get(i).getMonth()+"  "+ mDataset.get(position).getDayOfWeek()+"  "+dateArrayList.get(i).getYear());
+                Log.d("size", mDataset.get(position).getDayOfMonth() + "  " + dateArrayList.get(i).getDay() + "   " + dateArrayList.get(i).getMonth() + "  " + mDataset.get(position).getDayOfWeek() + "  " + dateArrayList.get(i).getYear());
             }
         }
         if (HistoryFragment.getSelected() != null) {
@@ -139,10 +140,33 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<CalendarRe
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                HistoryFragment.targetDate= String.valueOf(mDataset.get(position).getDayOfMonth());
-//                Toast.makeText(context, "test"+ mDataset.get(position).getDayOfMonth(), Toast.LENGTH_SHORT).show();
+                // Change background color of the clicked item
+                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.grey));
+
+                // Reset background color of previously clicked item (if any)
+                int lastClickedPosition = HistoryFragment.getLastClickedItemPosition();
+                if (lastClickedPosition != -1) {
+                    CalendarRecyclerViewAdapter.ViewHolder lastViewHolder = HistoryFragment.getViewHolder(lastClickedPosition);
+                    if (lastViewHolder != null) {
+                        lastViewHolder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+                    }
+                }
+
+                // Update last clicked item position
+                HistoryFragment.setLastClickedItemPosition(holder.getAdapterPosition());
+
+                // Update ViewHolder in HistoryFragment
+                HistoryFragment.putViewHolder(holder.getAdapterPosition(), holder);
+
+                // Your existing onClick logic
+                HistoryFragment.targetDate = HistoryFragment.todayDate.getYear() + "-" + HistoryFragment.todayDate.getMonthOfYear() + "-" + mDataset.get(position).getDayOfMonth();
+                HistoryFragment.exercises = HistoryFragment.dbHelper.getExercisesByDate(HistoryFragment.targetDate);
+                HistoryFragment.binding.myRecyclerViewTrack.setLayoutManager(new LinearLayoutManager(context));
+                HistoryFragment.adapter = new ExerciseAdapter(HistoryFragment.exercises);
+                HistoryFragment.binding.myRecyclerViewTrack.setAdapter(HistoryFragment.adapter);
             }
         });
+
     }
 
 

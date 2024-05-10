@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +26,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_track, parent, false);
         return new ExerciseViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         Exercise exercise = exerciseList.get(position);
@@ -52,17 +52,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
         void bind(Exercise exercise) {
             exerciseNameTextView.setText(exercise.getExerciseName());
-            if(exercise.getMinutes()<1)
-            {
+            if (exercise.getMinutes() < 1) {
                 minutesTextView.setText("Less than a minute");
+            } else {
+                minutesTextView.setText(String.valueOf(exercise.getMinutes()) + " minutes");
 
             }
-else
-            {
-                minutesTextView.setText(String.valueOf(exercise.getMinutes())+" minutes");
-
-            }
-            caloriesBurnedTextView.setText(String.valueOf(exercise.getCaloriesBurned())+" calories");
+            caloriesBurnedTextView.setText(String.valueOf(exercise.getCaloriesBurned()) + " calories");
         }
     }
 }

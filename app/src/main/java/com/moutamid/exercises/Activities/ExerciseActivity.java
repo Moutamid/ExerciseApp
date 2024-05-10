@@ -240,10 +240,10 @@ public class ExerciseActivity extends AppCompatActivity {
             int seconds = (int) (millis / 1000);
             minutes = seconds / 60;
             seconds = seconds % 60;
-            double v = MET * 3.5 * Integer.parseInt(weight);
+            double v = MET * 3.5 * Double.parseDouble(weight);
             double v1 = v / 200;
             calories_burn = v1 * Double.parseDouble(String.valueOf(minutes));
-            Log.d("dataaa", v + "   "+minutes+"     " + v1 + "  " + calories_burn);
+            Log.d("dataaa", v + "   " + minutes + "     " + v1 + "  " + calories_burn);
             timerTextView.setText(String.format("%02d:%02d", minutes, seconds));
             timerHandler.postDelayed(this, 200);
 
@@ -264,9 +264,19 @@ public class ExerciseActivity extends AppCompatActivity {
         reps = findViewById(R.id.reps);
         currentExercise = Stash.getInt("exercise_no", 1);
         currentSet = Stash.getInt("exercise_sets", 1);
-        Log.d("dataaa", currentExercise + "   "+currentSet);
+        Log.d("dataaa", currentExercise + "   " + currentSet);
         User user = (User) Stash.getObject("user", User.class);
-        weight = user.weight;
+        if (user.weight_type.equals("LB")) {
+            String weight1 = user.weight;
+            double v = Double.parseDouble(weight1) * 0.453592;
+            weight = String.valueOf(v);
+
+
+        } else {
+            weight = user.weight;
+
+        }
+        Log.d("weight", weight + "    " + user.weight_type);
         play = findViewById(R.id.play);
         pause = findViewById(R.id.pause);
 
@@ -294,12 +304,12 @@ public class ExerciseActivity extends AppCompatActivity {
             case 2:
                 videoView.setImageResource(R.drawable.img3);
                 name.setText("TRICEPS EXTENSIONS");
-                 MET = 3;
+                MET = 3;
                 break;
             case 3:
                 videoView.setImageResource(R.drawable.img2);
                 name.setText("LEG EXTENSIONS");
-               MET = 3.5;
+                MET = 3.5;
                 break;
             case 4:
                 videoView.setImageResource(R.drawable.img4);

@@ -10,12 +10,14 @@ public class User {
     public String name;
     public int age;
     public String weight;
+    public String weight_type;
 
-    public User(String gender, String name, int age, String weight) {
+    public User(String gender, String name, int age, String weight, String weight_type) {
         this.gender = gender;
         this.name = name;
         this.age = age;
         this.weight = weight;
+        this.weight_type = weight_type;
     }
 
     public int getUid() {

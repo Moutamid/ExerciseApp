@@ -188,7 +188,7 @@ public class IntroActivity extends AppCompatActivity {
             binding.layout4.setVisibility(View.VISIBLE);
             binding.layout6.setVisibility(View.GONE);
 
-            User user = new User(gender, name, selectedAge, weight);
+            User user = new User(gender, name, selectedAge, weight,Type);
             Stash.put("user", user);
             Stash.put("exercise_no", 1);
             Stash.put("exercise_no", 1);

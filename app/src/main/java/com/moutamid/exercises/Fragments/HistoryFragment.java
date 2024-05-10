@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +31,23 @@ import java.util.List;
 
 public class HistoryFragment extends Fragment {
 
-    private FragmentHistoryBinding binding;
+    public static FragmentHistoryBinding binding;
     private CalendarRecyclerViewAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    public LocalDate startDate, endDate, todayDate;
+    public static LocalDate startDate, endDate, todayDate;
     boolean changeDetected = false;
     boolean scrollPager = true;
     boolean clicked = false;
 
     public static LocalDate selected;
     private ArrayList<DateModelClass> dateArrayList;
-
     private List<LocalDate> dates;
-    private ExerciseDbHelper dbHelper;
-    private ExerciseAdapter adapter;
+    public  static  ExerciseDbHelper dbHelper;
+    public  static  ExerciseAdapter adapter;
     public static String targetDate;
+    public  static   List<Exercise> exercises;
+    private static int lastClickedItemPosition = -1;
+    private static SparseArray<CalendarRecyclerViewAdapter.ViewHolder> viewHolders = new SparseArray<>();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +62,8 @@ public class HistoryFragment extends Fragment {
         FirebaseApp.initializeApp(getContext());
         Calendar(getContext(), getActivity());
         dbHelper = new ExerciseDbHelper(getContext());
-        targetDate = "2024-05-10";
-        List<Exercise> exercises = dbHelper.getExercisesByDate(targetDate);
+        targetDate = "2024-5-10";
+        exercises = dbHelper.getExercisesByDate(targetDate);
         binding.myRecyclerViewTrack.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExerciseAdapter(exercises);
         binding.myRecyclerViewTrack.setAdapter(adapter);
@@ -91,6 +94,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void setUpListeners(final Context context) {
+
 Log.d("dateeee", todayDate.getMonthOfYear()+"  "+ todayDate.getYear());
         setMonthYearText(getMonthName(todayDate.getMonthOfYear()), "" + todayDate.getYear());
         LocalDate t = new LocalDate();
@@ -194,4 +198,21 @@ Log.d("dateeee", todayDate.getMonthOfYear()+"  "+ todayDate.getYear());
 
     private void setMonthYearText(String month, String year) {
         binding.monthYear.setText(month + ", " + year);
-    }}
+    }
+    public static int getLastClickedItemPosition() {
+        return lastClickedItemPosition;
+    }
+
+    public static void setLastClickedItemPosition(int position) {
+        lastClickedItemPosition = position;
+    }
+
+    public static CalendarRecyclerViewAdapter.ViewHolder getViewHolder(int position) {
+        return viewHolders.get(position);
+    }
+
+    public static void putViewHolder(int position, CalendarRecyclerViewAdapter.ViewHolder viewHolder) {
+        viewHolders.put(position, viewHolder);
+    }
+
+}

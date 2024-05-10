@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
             }
         });
         binding.streak.setText(Stash.getInt("Streak", 0)+"");
-
         binding.exerciseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,9 +45,6 @@ public class HomeFragment extends Fragment {
         });   binding.startLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                 Calendar calendar = Calendar.getInstance();
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.FRIDAY) {
