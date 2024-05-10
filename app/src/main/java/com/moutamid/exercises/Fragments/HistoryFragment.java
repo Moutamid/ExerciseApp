@@ -44,7 +44,7 @@ public class HistoryFragment extends Fragment {
     private List<LocalDate> dates;
     private ExerciseDbHelper dbHelper;
     private ExerciseAdapter adapter;
-    private String targetDate;
+    public static String targetDate;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +59,7 @@ public class HistoryFragment extends Fragment {
         FirebaseApp.initializeApp(getContext());
         Calendar(getContext(), getActivity());
         dbHelper = new ExerciseDbHelper(getContext());
-        targetDate = "2024-04-29";
+        targetDate = "2024-05-10";
         List<Exercise> exercises = dbHelper.getExercisesByDate(targetDate);
         binding.myRecyclerViewTrack.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExerciseAdapter(exercises);

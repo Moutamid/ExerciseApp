@@ -9,6 +9,7 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fxn.stash.Stash;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
 
@@ -20,7 +21,8 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         videoView = findViewById(R.id.video_view);
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1; // Example: R.raw.your_video
+//        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1; // Example: R.raw.your_video
+    String videoPath= Stash.getString("videoPath");
         videoView.setVideoURI(Uri.parse(videoPath));
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override

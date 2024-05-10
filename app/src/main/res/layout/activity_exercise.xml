@@ -7,12 +7,13 @@
     android:background="@color/white"
     tools:context=".Activities.ExerciseActivity">
 
-    <VideoView
+    <ImageView
         android:id="@+id/video_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/bottom_layout"
         android:layout_below="@+id/back_btn"
+        android:src="@drawable/img1"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp" />
 
@@ -41,6 +42,7 @@
             android:layout_below="@+id/name"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             android:fontFamily="@font/lexend_light"
             android:text="(while reviewing workload and planning day)"
             android:textColor="@color/black"
@@ -114,6 +116,7 @@
             android:layout_marginBottom="35dp"
             android:background="@drawable/button_bg"
             android:padding="16dp"
+            android:visibility="gone"
             android:src="@drawable/pause"
             app:tint="@color/white" />
 
@@ -127,7 +130,7 @@
             android:background="@drawable/button_bg"
             android:padding="16dp"
             android:src="@drawable/play"
-            android:visibility="gone"
+
             app:tint="@color/white" />
     </RelativeLayout>
 

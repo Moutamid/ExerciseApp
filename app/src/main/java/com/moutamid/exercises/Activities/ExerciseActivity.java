@@ -196,6 +196,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -212,10 +213,13 @@ import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
 
 public class ExerciseActivity extends AppCompatActivity {
-    private VideoView videoView;
+    private static final long START_TIME_IN_MILLIS = 60000; // 1 minute, adjust as needed
+
+    private ImageView videoView;
     private ImageView play, pause;
     private TextView timerTextView, reps, next_btn, name, details, sets;
-    private long startTime = 0;
+    private long startTime = System.currentTimeMillis();
+
     String videoPath;
     private Handler timerHandler = new Handler();
     double MET;
@@ -225,12 +229,14 @@ public class ExerciseActivity extends AppCompatActivity {
     String weight;
     int minutes;
     private ExerciseDbHelper dbHelper;
-
+    private long pauseTime;
+    private boolean timerRunning;
 
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             long millis = System.currentTimeMillis() - startTime;
+//            startTime=millis;
             int seconds = (int) (millis / 1000);
             minutes = seconds / 60;
             seconds = seconds % 60;
@@ -240,6 +246,7 @@ public class ExerciseActivity extends AppCompatActivity {
             Log.d("dataaa", v + "   "+minutes+"     " + v1 + "  " + calories_burn);
             timerTextView.setText(String.format("%02d:%02d", minutes, seconds));
             timerHandler.postDelayed(this, 200);
+
         }
     };
 
@@ -280,53 +287,43 @@ public class ExerciseActivity extends AppCompatActivity {
         }
         switch (currentExercise) {
             case 1:
-                videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1;
+                videoView.setImageResource(R.drawable.img1);
                 name.setText("LATERAL RAISES");
                 MET = 3;
                 break;
             case 2:
-                videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video2;
+                videoView.setImageResource(R.drawable.img3);
                 name.setText("TRICEPS EXTENSIONS");
                  MET = 3;
                 break;
             case 3:
-                videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video3;
+                videoView.setImageResource(R.drawable.img2);
                 name.setText("LEG EXTENSIONS");
                MET = 3.5;
                 break;
             case 4:
-                videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video4;
+                videoView.setImageResource(R.drawable.img4);
                 name.setText("LEG CURLS");
-
                 MET = 3.5;
                 break;
             case 5:
-                videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video5;
+                videoView.setImageResource(R.drawable.img5);
                 name.setText("STANDING KICKBACKS");
-
                 MET = 3;
                 break;
         }
-        videoView.setVideoURI(Uri.parse(videoPath));
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                // Start the video again when it completes
-                videoView.start();
-                next_btn.setVisibility(View.VISIBLE);
-            }
-        });
-        videoView.start();
+
+        final long[] timeRemaining = {0};
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!videoView.isPlaying()) {
-                    pause.setVisibility(View.VISIBLE);
-                    play.setVisibility(View.INVISIBLE);
-                    videoView.start();
-                    startTime = System.currentTimeMillis() - videoView.getCurrentPosition();
+                if (!timerRunning) {
+                    startTime = System.currentTimeMillis() - timeRemaining[0];
                     timerHandler.postDelayed(timerRunnable, 0);
+                    play.setVisibility(View.GONE);
+                    pause.setVisibility(View.VISIBLE);
+                    timerRunning = true;
                 }
             }
         });
@@ -334,21 +331,23 @@ public class ExerciseActivity extends AppCompatActivity {
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (videoView.isPlaying()) {
-                    play.setVisibility(View.VISIBLE);
-                    pause.setVisibility(View.INVISIBLE);
-                    videoView.pause();
+                if (timerRunning) {
                     timerHandler.removeCallbacks(timerRunnable);
+                    play.setVisibility(View.VISIBLE);
+                    pause.setVisibility(View.GONE);
+                    timerRunning = false;
+                    timeRemaining[0] = System.currentTimeMillis() - startTime;
                 }
             }
         });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
-        timerHandler.postDelayed(timerRunnable, 0);
+//        startTime = System.currentTimeMillis();
+//        timerHandler.postDelayed(timerRunnable, 0);
     }
 
     @Override

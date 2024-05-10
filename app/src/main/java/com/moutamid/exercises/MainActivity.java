@@ -27,6 +27,7 @@ import com.moutamid.exercises.Fragments.SettingFragment;
 import com.moutamid.exercises.Utils.NotificationHelper;
 import com.moutamid.exercises.Utils.NotificationScheduler;
 import com.moutamid.exercises.Utils.util;
+import com.moutamid.exercises.databinding.ActivityIntroBinding;
 import com.moutamid.exercises.databinding.ActivityMainBinding;
 
 import org.json.JSONException;
@@ -49,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         util.changeStatusBarColor(this);
-       if (Build.VERSION.SDK_INT > 32) {
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+checkApp(MainActivity.this);
+        if (Build.VERSION.SDK_INT > 32) {
             if (!shouldShowRequestPermissionRationale("112")) {
                 getNotificationPermission();
             }

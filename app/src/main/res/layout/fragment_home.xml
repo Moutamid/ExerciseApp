@@ -70,22 +70,22 @@ android:layout_toLeftOf="@+id/streak"
           android:background="@drawable/background_rectangular_border"
           android:backgroundTint="#99000000"
           />
-      <TextView
-          android:id="@+id/next"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerHorizontal="true"
-          android:layout_marginStart="20dp"
-          android:layout_marginLeft="16dp"
-          android:layout_marginTop="20dp"
-          android:layout_marginEnd="20dp"
-          android:layout_marginBottom="5dp"
-          android:fontFamily="@font/lexend_extra_bold"
-          android:padding="12dp"
-          android:text="Overview"
-          android:layout_centerInParent="true"
-          android:textColor="@color/white"
-          android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/lexend_extra_bold"
+            android:padding="12dp"
+            android:text="Overview"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
   </RelativeLayout>
   <RelativeLayout
       android:id="@+id/exercise_layout"
@@ -112,15 +112,13 @@ android:layout_toLeftOf="@+id/streak"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
           android:layout_marginStart="20dp"
-          android:layout_marginLeft="16dp"
           android:layout_marginTop="20dp"
-          android:layout_marginEnd="20dp"
           android:layout_marginBottom="5dp"
           android:fontFamily="@font/lexend_extra_bold"
           android:padding="12dp"
-          android:text="Exercise Details"
+          android:text="Watch Workout Videos"
           android:textColor="@color/white"
-          android:textSize="25sp" />
+          android:textSize="20dp" />
   </RelativeLayout>
   <RelativeLayout
       android:id="@+id/start_layout"
@@ -155,8 +153,8 @@ android:layout_toLeftOf="@+id/streak"
           android:layout_marginBottom="5dp"
           android:fontFamily="@font/lexend_extra_bold"
           android:padding="12dp"
-          android:text="Start Exercise"
+          android:text="Start Workout"
           android:textColor="@color/white"
-          android:textSize="25sp" />
+          android:textSize="22sp" />
   </RelativeLayout>
 </LinearLayout>
