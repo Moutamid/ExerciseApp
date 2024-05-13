@@ -202,15 +202,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.fxn.stash.Stash;
 import com.moutamid.exercises.DataBase.ExerciseDbHelper;
 import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExerciseActivity extends AppCompatActivity {
     private static final long START_TIME_IN_MILLIS = 60000; // 1 minute, adjust as needed
@@ -231,6 +239,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private ExerciseDbHelper dbHelper;
     private long pauseTime;
     private boolean timerRunning;
+    final long[] timeRemaining = {0};
 
     private Runnable timerRunnable = new Runnable() {
         @Override
@@ -266,6 +275,13 @@ public class ExerciseActivity extends AppCompatActivity {
         currentSet = Stash.getInt("exercise_sets", 1);
         Log.d("dataaa", currentExercise + "   " + currentSet);
         User user = (User) Stash.getObject("user", User.class);
+        if (!timerRunning) {
+            startTime = System.currentTimeMillis() - timeRemaining[0];
+            timerHandler.postDelayed(timerRunnable, 0);
+            play.setVisibility(View.GONE);
+            pause.setVisibility(View.VISIBLE);
+            timerRunning = true;
+        }
         if (user.weight_type.equals("LB")) {
             String weight1 = user.weight;
             double v = Double.parseDouble(weight1) * 0.453592;
@@ -323,7 +339,6 @@ public class ExerciseActivity extends AppCompatActivity {
                 break;
         }
 
-        final long[] timeRemaining = {0};
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -397,5 +412,46 @@ public class ExerciseActivity extends AppCompatActivity {
     private void storeExerciseData(String exerciseName, int minutes, int set) {
         long newRowId = dbHelper.addExercise(exerciseName, minutes, calories_burn);
     }
+//    private void sendFCMPush(String message) {
+//        JSONObject notification = new JSONObject();
+//        JSONObject notifcationBody = new JSONObject();
+//        try {
+//            notifcationBody.put("title", "DANTLI CORP");
+//            notifcationBody.put("message", message);
+//            notifcationBody.put("type", type);
+//            notifcationBody.put("data", s);
+//            notification.put("to", "/topics/" + "general");
+//            notification.put("data", notifcationBody);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, NOTIFICATIONAPIURL, notification,
+//                response -> {
+//                    Log.e("True", response + "");
+//                    Log.d("Responce", response.toString());
+//                    progress_bar.setVisibility(View.GONE);
+//                    Toast.makeText(NotifcationsActivity.this, "Successfully send a notification", Toast.LENGTH_SHORT).show();
+//                },
+//                error -> {
+//                    progress_bar.setVisibility(View.GONE);
+//                    Log.e("False", error.getMessage() + "  " + error.toString() + "");
+//                    Toast.makeText(NotifcationsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("Authorization", "key=" + Constants.ServerKey);
+////                params.put("Content-Type", "application/json");
+//                return params;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        int socketTimeout = 1000 * 60;
+//        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//        jsObjRequest.setRetryPolicy(policy);
+//        requestQueue.add(jsObjRequest);
+//    }
 
 }

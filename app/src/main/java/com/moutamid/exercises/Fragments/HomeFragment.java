@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.fxn.stash.Stash;
 import com.moutamid.exercises.Activities.AllExercisesActivity;
 import com.moutamid.exercises.Activities.ExerciseActivity;
+import com.moutamid.exercises.Activities.MainMenuActivity;
 import com.moutamid.exercises.Activities.OverviewActivity;
 import com.moutamid.exercises.Utils.NotificationHelper;
 import com.moutamid.exercises.Utils.NotificationScheduler;
@@ -37,31 +38,18 @@ public class HomeFragment extends Fragment {
             }
         });
         binding.streak.setText(Stash.getInt("Streak", 0)+"");
+
         binding.exerciseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                     startActivity(new Intent(getContext(), AllExercisesActivity.class));
+                  startActivity(new Intent(getContext(), AllExercisesActivity.class));
                }
-        });   binding.startLayout.setOnClickListener(new View.OnClickListener() {
+        });
+        binding.startLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar calendar = Calendar.getInstance();
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.FRIDAY) {
-                    int exerciseNo = Stash.getInt("exercise_no", 1);
-                    int exercise_sets = Stash.getInt("exercise_sets", 1);
-                    if (exerciseNo != 1 && exercise_sets != 1) {
-                        ResumeDialogClass cdd = new ResumeDialogClass(getActivity());
-                        cdd.show();
-                    } else if (exerciseNo != 1) {
-                        ResumeDialogClass cdd = new ResumeDialogClass(getActivity());
-                        cdd.show();
-                    } else {
-                        startActivity(new Intent(getContext(), ExerciseActivity.class));
-                    }
-                } else {
-                    Toast.makeText(getContext(), "You can only start this on Monday, Thursday, or Friday.", Toast.LENGTH_SHORT).show();
-                }
+                startActivity(new Intent(getContext(), MainMenuActivity.class));
+
             }
         });
 

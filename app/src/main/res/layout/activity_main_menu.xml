@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="20dp"
+
+    tools:context=".Activities.OverviewActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/lexend_semi_bold"
+        android:text="Workout &amp; Exercises"
+        android:textColor="@color/black"
+        android:textSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/calibri"
+        android:justificationMode="inter_word"
+        android:text="Pick a work out level that suits if you are not sure start with the beginer you can also choose another level up later if its two easy remember consistency is the key workout everyday you are at your day at the same time for the quickest and better results"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/text"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lexend_medium"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="Beginner"
+            android:textSize="12dp"
+            android:textColor="@color/black" />        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lexend_medium"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="Intermediate"
+            android:textSize="12dp"
+            android:textColor="@color/black" />        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/lexend_medium"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="Advanced"
+            android:textSize="12dp"
+            android:textColor="@color/black" />
+
+
+
+    </LinearLayout>
+   <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_below="@+id/text2"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="40dp"
+           android:layout_margin="10dp"
+           android:layout_marginStart="10dp"
+           android:layout_marginTop="10dp"
+           android:onClick="start"
+           android:layout_marginEnd="10dp"
+           android:layout_marginBottom="10dp"
+           android:layout_weight="1"
+           android:background="@drawable/button_bg"
+           android:fontFamily="@font/lexend_light"
+           android:gravity="center"
+           android:text="Start"
+           android:textColor="@color/black" />
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="40dp"
+           android:layout_margin="10dp"
+           android:layout_marginStart="10dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginEnd="10dp"
+           android:layout_marginBottom="10dp"
+           android:onClick="start"
+           android:layout_weight="1"
+           android:background="@drawable/button_bg"
+           android:fontFamily="@font/lexend_light"
+           android:gravity="center"
+           android:text="Start"
+           android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/lexend_light"
+            android:gravity="center"
+            android:text="Start"
+            android:onClick="start"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+</RelativeLayout>

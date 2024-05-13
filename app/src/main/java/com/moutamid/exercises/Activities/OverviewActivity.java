@@ -12,20 +12,13 @@ import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
 
 public class OverviewActivity extends AppCompatActivity {
-    Button back, next;
+    Button next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
-        back = findViewById(R.id.back);
         next = findViewById(R.id.next);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,4 +30,6 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

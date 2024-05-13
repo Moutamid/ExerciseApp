@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:fontFamily="@font/lexend_medium"
-        android:text="Overview"
+        android:fontFamily="@font/lexend_semi_bold"
+        android:text="Why Workout at work"
         android:textColor="@color/black"
-        android:textSize="36dp"
+        android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/calibri"
         android:justificationMode="inter_word"
-        android:text="In the modern workplace, where the average office worker juggles a staggering number of emails—sending around 40 and reading approximately 121 every day—finding ways to stay healthy and energized is essential.\nAmidst the constant barrage of digital communication, it's easy to become sedentary, glued to our screens for hours on end.\nStarting the day off right is vital to creating lasting habits throughout the day, so, let's turn those email sessions into opportunities to move our bodies, revitalize our minds, and excel in both work and wellness. "
+        android:text="In the modern workplace, where the average office worker juggles a staggering number of emails—sending around 40 and reading approximately 121 every day—finding ways to stay healthy and energized is essential.\nAmidst the constant barrage of digital communication, it's easy to become sedentary, glued to our screens for hours on end.\nStarting the day off right is vital to creating lasting habits throughout the day, so, let's turn those email sessions into opportunities to move our bodies, revitalize our minds, and excel in both work and wellness.\nThe daily five exercises are the core workout of the office gym portable fitness system 5 exercises that target the key areas of our body that most grammatical impact what we present to the world how we move and how we feel they are design to be done in this order every morning starting when you first sit down at your desk"
         android:textColor="@color/black"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,29 +39,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
         >
 
-        <Button
-            android:id="@+id/back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Back"
-            android:layout_margin="6dp"
-
-            android:background="@drawable/button_bg"
-            android:textColor="@color/white"
-            android:fontFamily="@font/lexend_medium"/>
         <Button
             android:id="@+id/next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/button_bg"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="6dp"
             android:fontFamily="@font/lexend_medium"
             android:text="What's in the bag" />
