@@ -49,15 +49,72 @@
         android:visibility="visible"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:scrollbars="horizontal" />   <androidx.recyclerview.widget.RecyclerView
+        android:scrollbars="horizontal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/monthYear"
+
+        android:layout_height="wrap_content"
+    >  <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/lexend_medium"
+        android:text="No Workout is done today"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view_track"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/monthYear"
+        android:layout_height="210dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:visibility="visible"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:scrollbars="horizontal" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/monthYear"
+
+        android:layout_height="wrap_content"
+    >     <TextView
+        android:id="@+id/buddies"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:visibility="visible"
+android:layout_centerHorizontal="true"
+android:fontFamily="@font/lexend_extra_bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:padding="12dp"
+        android:textSize="18dp"
+
+
+        android:text="Buddies"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/button_bg"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view_buddies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+            android:layout_below="@+id/buddies"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:scrollbars="horizontal" />
+    </RelativeLayout>
 </LinearLayout>

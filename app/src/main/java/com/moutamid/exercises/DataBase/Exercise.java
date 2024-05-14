@@ -1,48 +1,54 @@
 package com.moutamid.exercises.DataBase;
 
-public class Exercise {
-    private long id;
-    private String exerciseName;
-    private int minutes;
-    private double caloriesBurned;
-    private String date;
 
-    public Exercise(long id, String exerciseName, int minutes, double caloriesBurned, String date) {
-        this.id = id;
-        this.exerciseName = exerciseName;
-        this.minutes = minutes;
-        this.caloriesBurned = caloriesBurned;
-        this.date = date;
-    }
+    public class Exercise {
+        public  String exerciseName;
+        public  int minutes;
+        public  double caloriesBurned;
+        public  String date;
+        public  String user_name;
 
-    public long getId() {
-        return id;
-    }
+        public Exercise() {
+            // Required empty constructor for Firebase
+        }
 
-    public String getExerciseName() {
-        return exerciseName;
-    }
+        public Exercise(String exerciseName, int minutes, double caloriesBurned, String date, String user_name) {
+            this.exerciseName = exerciseName;
+            this.minutes = minutes;
+            this.caloriesBurned = caloriesBurned;
+            this.date = date;
+            this.user_name = user_name;
+        }
 
-    public int getMinutes() {
-        return minutes;
-    }
+        public String getExerciseName() {
+            return exerciseName;
+        }
 
-    public double getCaloriesBurned() {
-        return caloriesBurned;
-    }
+        public void setExerciseName(String exerciseName) {
+            this.exerciseName = exerciseName;
+        }
 
-    public String getDate() {
-        return date;
-    }
+        public int getMinutes() {
+            return minutes;
+        }
 
-    @Override
-    public String toString() {
-        return "Exercise{" +
-                "id=" + id +
-                ", exerciseName='" + exerciseName + '\'' +
-                ", minutes=" + minutes +
-                ", caloriesBurned=" + caloriesBurned +
-                ", date='" + date + '\'' +
-                '}';
+        public void setMinutes(int minutes) {
+            this.minutes = minutes;
+        }
+
+        public double getCaloriesBurned() {
+            return caloriesBurned;
+        }
+
+        public void setCaloriesBurned(double caloriesBurned) {
+            this.caloriesBurned = caloriesBurned;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
     }
-}

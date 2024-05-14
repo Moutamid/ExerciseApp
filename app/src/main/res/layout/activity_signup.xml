@@ -6,37 +6,66 @@
     android:background="#fff"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:onClick="back"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/back"
+        android:tint="@color/app_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+
     <LinearLayout
         android:id="@+id/main_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@id/shape"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="120dp"
-            android:fontFamily="@font/lexend_extra_bold"
-            android:text="Login"
-            android:textSize="40dp"
-            android:textColor="#000"
 
-            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/lexend_medium"
-            android:text="Please signin to continue"
-            android:textSize="16dp" />
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/lexend_extra_bold"
+            android:text="Create Account"
+            android:textSize="30dp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/edit_bg"
+            android:fontFamily="@font/lexend_light"
+            android:hint="Name"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="#959595" />
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/edit_bg"
             android:fontFamily="@font/lexend_light"
@@ -50,55 +79,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
+
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/edit_bg"
+            android:drawablePadding="12dp"
+            android:ems="20"
+            android:fontFamily="@font/lexend_light"
+            android:hint="Passowrd"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="#959595" />
+        <EditText
+            android:id="@+id/confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_bg"
             android:drawablePadding="12dp"
             android:ems="20"
             android:fontFamily="@font/lexend_light"
-            android:hint="Password"
+            android:hint="Confirm Password"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textColorHint="#959595"
-            />
-        <TextView
-            android:id="@+id/btn_reset_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:fontFamily="@font/lexend_medium"
-            android:gravity="end"
-            android:text="Forgot Password ?"
-            android:textColor="@color/app_color" />
+            android:textColorHint="#959595" />
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_login"
+            android:id="@+id/sign_up_button"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_bg"
-            android:text="Login"
+            android:text="Signup"
             android:fontFamily="@font/lexend_medium"
             android:textColor="@color/black"
             android:textSize="16dp" />
+
+
         <TextView
-            android:id="@+id/btn_signup"
+            android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/lexend_medium"
+
             android:gravity="center"
-            android:textColor="#000"
-            android:text="Don't have an account? Sign up" />
+            android:text="Already have an account? Log in"
+            android:textColor="#000" />
+
     </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
         android:visibility="gone" />
 </RelativeLayout>

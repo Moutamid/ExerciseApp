@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,9 +22,29 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.fxn.stash.Stash;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.moutamid.exercises.Activities.IntroActivity;
 import com.moutamid.exercises.Fragments.HistoryFragment;
 import com.moutamid.exercises.Fragments.HomeFragment;
 import com.moutamid.exercises.Fragments.SettingFragment;
+import com.moutamid.exercises.Utils.FirebaseNotificationSender;
 import com.moutamid.exercises.Utils.NotificationHelper;
 import com.moutamid.exercises.Utils.NotificationScheduler;
 import com.moutamid.exercises.Utils.util;
@@ -38,6 +59,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
 
@@ -45,7 +71,11 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     final int PERMISSION_REQUEST_CODE = 112;
     private ActivityMainBinding binding;
-
+    String result;
+    private static final String TAG = "MainActivity";
+    private DatabaseReference mDatabase;
+    private List<String> tokenList;
+    private List<String> userIdList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +83,35 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         NotificationHelper.createNotificationChannel(MainActivity.this);
-checkApp(MainActivity.this);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                result = task.getResult();
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("token", result);
+
+                FirebaseDatabase.getInstance().getReference().child("OfficeGymApp").child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener(
+
+
+                ) {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });            }
+        });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("OfficeGymApp").child("Users"); // Adjust this path to match your database structure
+        tokenList = new ArrayList<>();
+        userIdList = new ArrayList<>();
+
+        fetchTokens();
+        checkApp(MainActivity.this);
         if (Build.VERSION.SDK_INT > 32) {
             if (!shouldShowRequestPermissionRationale("112")) {
                 getNotificationPermission();
@@ -93,6 +151,7 @@ checkApp(MainActivity.this);
                 transaction.commit();
             }
         });
+
     }
 
 
@@ -106,7 +165,7 @@ checkApp(MainActivity.this);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment newFragment = new HomeFragment();
             transaction.replace(R.id.main_fragment, newFragment);
-            transaction.addToBackStack(null);
+//            transaction.addToBackStack(null);
             transaction.commit();
 
         }
@@ -201,6 +260,71 @@ checkApp(MainActivity.this);
             }
 
         }).start();
+    }
+    private void fetchTokens() {
+        DatabaseReference databaseReferenceBuddies = FirebaseDatabase.getInstance().getReference().child("OfficeGymApp").child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Buddies");
+
+        databaseReferenceBuddies.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String token = snapshot.child("token").getValue(String.class);
+                    String id = snapshot.child("id").getValue(String.class);
+                    if (token != null) {
+                        tokenList.add(token);
+                        userIdList.add(id);
+                    }
+                }
+                Stash.put("tokenList", tokenList);
+                Stash.put("userIdList", userIdList);
+                for (String token : userIdList) {
+                    Log.d("TAG", "Token: " + userIdList);
+                }
+              }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w(TAG, "loadTokens:onCancelled", databaseError.toException());
+            }
+        });
+    }
+    private void sendFCMPush(String token) {
+        JSONObject notification = new JSONObject();
+        JSONObject notifcationBody = new JSONObject();
+        try {
+            notifcationBody.put("title", "Admin");
+            notifcationBody.put("message", "Send a new message");
+            notification.put("to", token);
+            notification.put("data", notifcationBody);
+            Log.e("DATAAAAAA", notification.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, Constants.NOTIFICATIONAPIURL, notification,
+//                response -> {
+//                    Log.e("True", response + "");
+////                    Toast.makeText(BookingActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+//                    Log.d("Responce", response.toString());
+//                },
+//                error -> {
+//                    Log.e("False", error + "");
+//                    Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("Authorization", "key=" + Constants.ServerKey);
+//                params.put("Content-Type", "application/json");
+//                return params;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        int socketTimeout = 1000 * 60;// 60 seconds
+//        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//        jsObjRequest.setRetryPolicy(policy);
+//        requestQueue.add(jsObjRequest);
     }
 
 }

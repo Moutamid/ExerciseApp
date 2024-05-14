@@ -160,10 +160,11 @@ public class CalendarRecyclerViewAdapter extends RecyclerView.Adapter<CalendarRe
 
                 // Your existing onClick logic
                 HistoryFragment.targetDate = HistoryFragment.todayDate.getYear() + "-" + HistoryFragment.todayDate.getMonthOfYear() + "-" + mDataset.get(position).getDayOfMonth();
-                HistoryFragment.exercises = HistoryFragment.dbHelper.getExercisesByDate(HistoryFragment.targetDate);
-                HistoryFragment.binding.myRecyclerViewTrack.setLayoutManager(new LinearLayoutManager(context));
-                HistoryFragment.adapter = new ExerciseAdapter(HistoryFragment.exercises);
-                HistoryFragment.binding.myRecyclerViewTrack.setAdapter(HistoryFragment.adapter);
+                 HistoryFragment.fetchExercisesByDate(HistoryFragment.targetDate);
+                 HistoryFragment.fetchBuddiesExercisesByDate(HistoryFragment.targetDate);
+//                HistoryFragment.binding.myRecyclerViewTrack.setLayoutManager(new LinearLayoutManager(context));
+//                HistoryFragment.adapter = new ExerciseAdapter(HistoryFragment.exercises);
+//                HistoryFragment.binding.myRecyclerViewTrack.setAdapter(HistoryFragment.adapter);
             }
         });
 

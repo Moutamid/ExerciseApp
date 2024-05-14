@@ -24,6 +24,9 @@
         tools:replace="android:theme,android:allowBackup"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.BuddiesActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.MainMenuActivity"
             android:exported="false" />
         <activity
@@ -46,13 +49,14 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.LoginActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+            android:name=".Authentication.LoginActivity"
+            android:exported="false" />
         <activity
-            android:name=".Activities.ReminderActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:name=".Authentication.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Authentication.ResetPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.IntroActivity"
             android:exported="false"
@@ -70,7 +74,15 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <receiver android:name=".Utils.NotificationReceiver" />
 

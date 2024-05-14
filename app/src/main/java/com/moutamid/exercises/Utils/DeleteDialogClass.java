@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.fxn.stash.Stash;
+import com.google.firebase.auth.FirebaseAuth;
 import com.moutamid.exercises.Activities.SplashActivity;
 import com.moutamid.exercises.R;
 
@@ -52,7 +53,7 @@ public class DeleteDialogClass extends Dialog implements
 //                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(c, gso);
 //                googleSignInClient.signOut();
 //                Config.storeValue("is_login", 1, c);
-
+                FirebaseAuth.getInstance().signOut();
                 c.startActivity(new Intent(c, SplashActivity.class));
                 c.finishAffinity();
                 break;

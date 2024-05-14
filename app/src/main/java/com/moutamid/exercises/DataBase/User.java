@@ -6,8 +6,10 @@ import androidx.room.PrimaryKey;
 
 public class User {
     public int uid;
+    public int id;
     public String gender;
     public String name;
+    public String email;
     public int age;
     public String weight;
     public String weight_type;
@@ -18,6 +20,11 @@ public class User {
         this.age = age;
         this.weight = weight;
         this.weight_type = weight_type;
+    }
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     public int getUid() {
@@ -58,5 +65,13 @@ public class User {
 
     public void setWeight(String weight) {
         this.weight = weight;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

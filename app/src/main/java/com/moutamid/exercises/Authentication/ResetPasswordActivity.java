@@ -2,10 +2,14 @@ package com.moutamid.exercises.Authentication;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.moutamid.dantlicorp.R;
+import com.moutamid.exercises.R;
+
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -27,15 +32,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-
-
         inputEmail = (EditText) findViewById(R.id.email);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
         auth = FirebaseAuth.getInstance();
-
-
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,10 +54,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPasswordActivity.this, "We have sent you a link on this email " + email + " to reset your password!", Toast.LENGTH_SHORT).show();
+                                    show_toast("We have sent you a link on this email " + email + " to reset your password!", 1);
                                     finish();
                                 } else {
-                                    Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                    show_toast("Failed to send reset email!", 0);
+                                    finish();
                                 }
 
                                 progressBar.setVisibility(View.GONE);
@@ -71,5 +72,26 @@ public class ResetPasswordActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    public void show_toast(String message, int type) {
+        LayoutInflater inflater = getLayoutInflater();
+
+        View layout;
+        if (type == 0) {
+            layout = inflater.inflate(R.layout.toast_wrong,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+        } else {
+            layout = inflater.inflate(R.layout.toast_right,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+
+        }
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM, 0, 10);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
 
 }

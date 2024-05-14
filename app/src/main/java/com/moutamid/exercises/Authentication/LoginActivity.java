@@ -5,127 +5,167 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.lang.UCharacter;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.moutamid.dantlicorp.Admin.AdminPanel;
-import com.moutamid.dantlicorp.MainActivity;
-import com.moutamid.dantlicorp.Model.UserModel;
-import com.moutamid.dantlicorp.R;
-import com.moutamid.dantlicorp.helper.Constants;
+import com.moutamid.exercises.MainActivity;
+import com.moutamid.exercises.R;
 
 import java.util.Objects;
 
-
 public class LoginActivity extends AppCompatActivity {
-    EditText email, password;
 
-    String email_str, password_str;
-    String name, emailstr, image_gmail;
-    private static final int RC_SIGN_IN = 1;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private DatabaseReference mDatabase;
-    Button login;
+    private EditText inputEmail, inputPassword;
+    private FirebaseAuth auth;
+    private ProgressBar progressBar;
+    private TextView btnSignup, btnReset;
+    Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
+  Animation bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        initComponent();
-        firebaseAuth = FirebaseAuth.getInstance();
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnSignup = (TextView) findViewById(R.id.btn_signup);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnReset = (TextView) findViewById(R.id.btn_reset_password);
+        LinearLayout main_layout = findViewById(R.id.main_layout);
+        main_layout.setAnimation(bottomAnim);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        auth = FirebaseAuth.getInstance();
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                initValues();
-                loginRequest();
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = inputEmail.getText().toString();
+                final String password = inputPassword.getText().toString();
+
+                if (TextUtils.isEmpty(email)) {
+                    show_toast("Email address is not yet provided", 0);
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    show_toast("Password is not yet provided", 0);
+
+                    return;
+                }
+
+
+                //authenticate user
+                auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                progressBar.setVisibility(View.GONE);
+                                if (!task.isSuccessful()) {
+                                    // there was an error
+                                    if (password.length() < 6) {
+                                        show_toast(getString(R.string.minimum_password), 0);
+
+                                    } else {
+                                        show_toast(getString(R.string.auth_failed), 0);
+
+                                    }
+                                } else {
+                                    Dialog lodingbar = new Dialog(LoginActivity.this);
+                                    lodingbar.setContentView(R.layout.loading);
+                                    Objects.requireNonNull(lodingbar.getWindow()).setBackgroundDrawable(new ColorDrawable(UCharacter.JoiningType.TRANSPARENT));
+                                    lodingbar.setCancelable(false);
+                                    lodingbar.show();
+
+                                        FirebaseDatabase.getInstance().getReference().child("OfficeGymApp").child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String name = snapshot.child("name").getValue().toString();
+                                                Stash.put("name", name);
+//                                                Stash.put("password", password);
+                                                show_toast("Successfully Login", 1);
+                                                lodingbar.dismiss();
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+                                }
+
+                        });
             }
         });
     }
 
-    public void initComponent() {
-        login = findViewById(R.id.login);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-    }
+    public void show_toast(String message, int type) {
+        LayoutInflater inflater = getLayoutInflater();
 
-    public void initValues() {
-        email_str = email.getText().toString();
-        password_str = password.getText().toString();
-    }
-
-    public void sign_up(View view) {
-        startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-    }
-
-
-    private void loginRequest() {
-        if (email_str.length() == 0) {
-            email.setError("Please Error");
-        } else if (password_str.length() == 0) {
-            password.setError("Please Error");
+        View layout;
+        if (type == 0) {
+            layout = inflater.inflate(R.layout.toast_wrong,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
         } else {
-
-            if (email.getText().toString().equals("admin@gmail.com") && password.getText().toString().equals("admin123")) {
-                Stash.put("admin_login", 1);
-                startActivity(new Intent(this, AdminPanel.class));
-                finish();
-
-            } else {
-                Dialog lodingbar = new Dialog(LoginActivity.this);
-                lodingbar.setContentView(R.layout.loading);
-                Objects.requireNonNull(lodingbar.getWindow()).setBackgroundDrawable(new ColorDrawable(UCharacter.JoiningType.TRANSPARENT));
-                lodingbar.setCancelable(false);
-                lodingbar.show();
-                Constants.auth().signInWithEmailAndPassword(
-                        email.getText().toString(),
-                        password.getText().toString()
-                ).addOnSuccessListener(authResult -> {
-
-                    Constants.UserReference.child(authResult.getUser().getUid()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                UserModel userModel = snapshot.getValue(UserModel.class);
-                                Stash.put("UserDetails", userModel);
-                                lodingbar.dismiss();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finishAffinity();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                }).addOnFailureListener(e -> {
-                    lodingbar.dismiss();
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-            }
-
+            layout = inflater.inflate(R.layout.toast_right,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
 
         }
-    }
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText(message);
 
-    public void forgot_password(View view) {
-        startActivity(new Intent(this, ResetPasswordActivity.class));
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM, 0, 10);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }

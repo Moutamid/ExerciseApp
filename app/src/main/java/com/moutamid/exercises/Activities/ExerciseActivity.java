@@ -192,6 +192,8 @@
 //}
 package com.moutamid.exercises.Activities;
 
+import static com.facebook.internal.CallbackManagerImpl.RequestCodeOffset.Message;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -206,18 +208,32 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.compose.ui.window.Notification;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.fxn.stash.Stash;
-import com.moutamid.exercises.DataBase.ExerciseDbHelper;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
 import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
+import com.moutamid.exercises.Utils.ExerciseManager;
+import com.moutamid.exercises.Utils.FirebaseNotificationSender;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ExerciseActivity extends AppCompatActivity {
@@ -236,7 +252,6 @@ public class ExerciseActivity extends AppCompatActivity {
     private int currentSet;
     String weight;
     int minutes;
-    private ExerciseDbHelper dbHelper;
     private long pauseTime;
     private boolean timerRunning;
     final long[] timeRemaining = {0};
@@ -252,7 +267,6 @@ public class ExerciseActivity extends AppCompatActivity {
             double v = MET * 3.5 * Double.parseDouble(weight);
             double v1 = v / 200;
             calories_burn = v1 * Double.parseDouble(String.valueOf(minutes));
-            Log.d("dataaa", v + "   " + minutes + "     " + v1 + "  " + calories_burn);
             timerTextView.setText(String.format("%02d:%02d", minutes, seconds));
             timerHandler.postDelayed(this, 200);
 
@@ -263,7 +277,6 @@ public class ExerciseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-        dbHelper = new ExerciseDbHelper(this);
         name = findViewById(R.id.name);
         details = findViewById(R.id.details);
         sets = findViewById(R.id.sets);
@@ -274,14 +287,8 @@ public class ExerciseActivity extends AppCompatActivity {
         currentExercise = Stash.getInt("exercise_no", 1);
         currentSet = Stash.getInt("exercise_sets", 1);
         Log.d("dataaa", currentExercise + "   " + currentSet);
+
         User user = (User) Stash.getObject("user", User.class);
-        if (!timerRunning) {
-            startTime = System.currentTimeMillis() - timeRemaining[0];
-            timerHandler.postDelayed(timerRunnable, 0);
-            play.setVisibility(View.GONE);
-            pause.setVisibility(View.VISIBLE);
-            timerRunning = true;
-        }
         if (user.weight_type.equals("LB")) {
             String weight1 = user.weight;
             double v = Double.parseDouble(weight1) * 0.453592;
@@ -295,6 +302,13 @@ public class ExerciseActivity extends AppCompatActivity {
         Log.d("weight", weight + "    " + user.weight_type);
         play = findViewById(R.id.play);
         pause = findViewById(R.id.pause);
+        if (!timerRunning) {
+            startTime = System.currentTimeMillis() - timeRemaining[0];
+            timerHandler.postDelayed(timerRunnable, 0);
+            play.setVisibility(View.GONE);
+            pause.setVisibility(View.VISIBLE);
+            timerRunning = true;
+        }
 
 
         switch (currentSet) {
@@ -410,48 +424,9 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void storeExerciseData(String exerciseName, int minutes, int set) {
-        long newRowId = dbHelper.addExercise(exerciseName, minutes, calories_burn);
+        ExerciseManager exerciseManager = new ExerciseManager();
+        exerciseManager.addExercise(exerciseName, minutes, calories_burn);
     }
-//    private void sendFCMPush(String message) {
-//        JSONObject notification = new JSONObject();
-//        JSONObject notifcationBody = new JSONObject();
-//        try {
-//            notifcationBody.put("title", "DANTLI CORP");
-//            notifcationBody.put("message", message);
-//            notifcationBody.put("type", type);
-//            notifcationBody.put("data", s);
-//            notification.put("to", "/topics/" + "general");
-//            notification.put("data", notifcationBody);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, NOTIFICATIONAPIURL, notification,
-//                response -> {
-//                    Log.e("True", response + "");
-//                    Log.d("Responce", response.toString());
-//                    progress_bar.setVisibility(View.GONE);
-//                    Toast.makeText(NotifcationsActivity.this, "Successfully send a notification", Toast.LENGTH_SHORT).show();
-//                },
-//                error -> {
-//                    progress_bar.setVisibility(View.GONE);
-//                    Log.e("False", error.getMessage() + "  " + error.toString() + "");
-//                    Toast.makeText(NotifcationsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-//                }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("Authorization", "key=" + Constants.ServerKey);
-////                params.put("Content-Type", "application/json");
-//                return params;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        int socketTimeout = 1000 * 60;
-//        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-//        jsObjRequest.setRetryPolicy(policy);
-//        requestQueue.add(jsObjRequest);
-//    }
+
 
 }

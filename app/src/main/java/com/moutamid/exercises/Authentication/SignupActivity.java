@@ -1,245 +1,195 @@
 package com.moutamid.exercises.Authentication;
-
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.lang.UCharacter;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.moutamid.dantlicorp.Model.UserModel;
-import com.moutamid.dantlicorp.R;
-import com.moutamid.dantlicorp.helper.Config;
-import com.moutamid.dantlicorp.helper.Constants;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.moutamid.exercises.Activities.IntroActivity;
+import com.moutamid.exercises.MainActivity;
+import com.moutamid.exercises.Model.UserInfo;
+import com.moutamid.exercises.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
-    private static final int PICK_IMAGE_GALLERY = 111;
-    ImageView profile_pic;
-    Calendar myCalendar = Calendar.getInstance();
-    EditText name, dob, email, password, phone_number, city, state;
-    Uri image_profile_str = null;
-    RadioGroup courier_type;
-    String courier_type_str = "select";
+
+    private EditText inputEmail, inputPassword, inputName, inputConfirmPassword;
+    private Button btnSignUp;
+    private TextView btnSignIn;
+    private ProgressBar progressBar;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        profile_pic = findViewById(R.id.profile_pic);
-        courier_type = findViewById(R.id.courier_type);
-        courier_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        Animation bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
+        LinearLayout main_layout = findViewById(R.id.main_layout);
+        main_layout.setAnimation(bottomAnim);
+
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
+        inputName = (EditText) findViewById(R.id.name);
+        inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
+        btnSignIn = (TextView) findViewById(R.id.sign_in_button);
+        btnSignUp = (Button) findViewById(R.id.sign_up_button);
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton radioButton = findViewById(i);
-                courier_type_str = radioButton.getText().toString();
+            public void onClick(View v) {
+                finish();
             }
         });
-        initComponent();
-        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            String myFormat = "MM/dd/yyyy"; //In which you need put here
-            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            dob.setText(sdf.format(myCalendar.getTime()));
-        };
 
-        dob.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(SignupActivity.this, date, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                    myCalendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.show();
-        });
-    }
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    public void initComponent() {
-        name = findViewById(R.id.name);
-        dob = findViewById(R.id.dob);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        phone_number = findViewById(R.id.phone_number);
-        city = findViewById(R.id.city);
-        state = findViewById(R.id.state);
-    }
+                String email = inputEmail.getText().toString().trim();
+                String password = inputPassword.getText().toString().trim();
+                String name = inputName.getText().toString().trim();
+                String confirm_password = inputConfirmPassword.getText().toString().trim();
+                Stash.put("name", name);
+                Stash.put("password", password);
+                if (TextUtils.isEmpty(name)) {
+                    show_toast("Enter name", 0);
+                    return;
+                }
+                if (TextUtils.isEmpty(email)) {
+                    show_toast("Enter email address!", 0);
+                    return;
+                }
 
-    public void login(View view) {
-        startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-    }
-
-    public void sign_up(View view) {
-        if (validation()) {
-            registerRequest();
-        }
-    }
+                if (TextUtils.isEmpty(password)) {
+                    show_toast("Enter password!", 0);
+                    return;
+                }
+                if (TextUtils.isEmpty(confirm_password)) {
+                    show_toast("Enter confirm password!", 0);
+                    return;
+                }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            image_profile_str = data.getData();
-            profile_pic.setImageURI(image_profile_str);
-            profile_pic.setVisibility(View.VISIBLE);
-        }
-    }
+                if (password.length() < 6) {
+                    show_toast("Password too short, enter minimum 6 characters!", 0);
+                    return;
+                }
+                if (!password.equals(confirm_password)) {
+                    show_toast("Password is not matched", 0);
+                    inputConfirmPassword.setText("");
+                    inputPassword.setText("");
+                    return;
+                }
 
+//                progressBar.setVisibility(View.VISIBLE);
+                Dialog lodingbar = new Dialog(SignupActivity.this);
+                lodingbar.setContentView(R.layout.loading);
+                Objects.requireNonNull(lodingbar.getWindow()).setBackgroundDrawable(new ColorDrawable(UCharacter.JoiningType.TRANSPARENT));
+                lodingbar.setCancelable(false);
+                lodingbar.show();
 
-    private void registerRequest() {
-
-        Dialog lodingbar = new Dialog(SignupActivity.this);
-        lodingbar.setContentView(R.layout.loading);
-        Objects.requireNonNull(lodingbar.getWindow()).setBackgroundDrawable(new ColorDrawable(UCharacter.JoiningType.TRANSPARENT));
-        lodingbar.setCancelable(false);
-        lodingbar.show();
-        String filePathName = "users/";
-        final String timestamp = "" + System.currentTimeMillis();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathName + timestamp);
-        UploadTask urlTask = storageReference.putFile(image_profile_str);
-        Task<Uri> uriTask = urlTask.continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
-            return storageReference.getDownloadUrl();
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Uri downloadImageUri = task.getResult();
-                if (downloadImageUri != null) {
-                    Constants.auth().createUserWithEmailAndPassword(
-                            email.getText().toString(),
-                            password.getText().toString()
-                    ).addOnCompleteListener(authResult -> {
-                        UserModel userModel = new UserModel();
-                        userModel.name = name.getText().toString();
-                        userModel.dob = dob.getText().toString();
-                        userModel.email = email.getText().toString();
-                        userModel.phone_number = phone_number.getText().toString();
-                        userModel.state = state.getText().toString();
-                        userModel.city = city.getText().toString();
-                        userModel.image_url = downloadImageUri.toString();
-                        userModel.id = Constants.auth().getCurrentUser().getUid();
-                        userModel.is_courier = courier_type_str;
-
-                        Constants.UserReference.child(Objects.requireNonNull(Constants.auth().getCurrentUser().getUid())).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                //create user
+                auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onSuccess(Void unused) {
-                                Stash.put("UserDetails", userModel);
-                                Stash.put("is_first", true);
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE);
+                                if (!task.isSuccessful()) {
+                                    show_toast("Authentication failed." + task.getException(), 0);
+                                } else {
+                                    UserInfo userModel = new UserInfo();
+                                    userModel.email = email;
+                                    userModel.name = name;
+                                    userModel.id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    FirebaseDatabase.getInstance().getReference().child("OfficeGymApp").child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Stash.put("profile_name", userModel.name);
+                                            show_toast("Account is created successfully", 1);
+                                            startActivity(new Intent(SignupActivity.this, IntroActivity.class));
+                                            lodingbar.dismiss();
+                                            finishAffinity();
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            lodingbar.dismiss();
+                                            show_toast("Something went wrong. Please try again", 0);
+                                        }
+                                    });
+
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
                                 lodingbar.dismiss();
-                                startActivity(new Intent(SignupActivity.this, GetSocialLinksActivity.class));
-                                finishAffinity();
                             }
                         });
-                    }).addOnFailureListener(e -> {
-                        lodingbar.dismiss();
-                        Toast.makeText(this, "error" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-                }
+
             }
-
         });
-
     }
 
-    private boolean validation() {
-        if (image_profile_str == null) {
-            Config.showToast(this, "Please select your profile picture");
-            return false;
-
-        } else if (name.getText().toString().isEmpty()) {
-            name.setError("Enter Name");
-            name.requestFocus();
-            Config.openKeyboard(this);
-
-            return false;
-        } else if (dob.getText().toString().isEmpty()) {
-            dob.setError("Select Date of Birth");
-            dob.requestFocus();
-            Config.openKeyboard(this);
-            return false;
-
-        } else if (email.getText().toString().isEmpty()) {
-            email.setError("Enter Email");
-            email.requestFocus();
-            Config.openKeyboard(this);
-            return false;
-
-        } else if (password.getText().toString().isEmpty()) {
-            password.setError("Enter Password");
-            password.requestFocus();
-            Config.openKeyboard(this);
-
-            return false;
-
-        } else if (phone_number.getText().toString().isEmpty()) {
-            phone_number.setError("Enter Phone Number");
-            phone_number.requestFocus();
-            Config.openKeyboard(this);
-
-            return false;
-
-        } else if (city.getText().toString().isEmpty()) {
-            city.setError("Enter City");
-            city.requestFocus();
-            Config.openKeyboard(this);
-
-            return false;
-
-        } else if (state.getText().toString().isEmpty()) {
-            state.setError("Enter State");
-            state.requestFocus();
-            Config.openKeyboard(this);
-
-            return false;
-
-        } else if (courier_type_str.equals("select"))
-        {
-            Toast.makeText(this, "Please select Courier option", Toast.LENGTH_SHORT).show();
-
-            return false;
-
-        }
-        else if (!Config.isNetworkAvailable(this))
-        {
-            Config.showToast(this, "You are not connected to network");
-
-            return false;
-        }
-        else {
-
-            return true;
-
-        }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.GONE);
     }
 
-    public void profile_image(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY);
+    public void back(View view) {
+        onBackPressed();
     }
+
+    public void show_toast(String message, int type) {
+        LayoutInflater inflater = getLayoutInflater();
+
+        View layout;
+        if (type == 0) {
+            layout = inflater.inflate(R.layout.toast_wrong,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+        } else {
+            layout = inflater.inflate(R.layout.toast_right,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+
+        }
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM, 0, 10);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
 }

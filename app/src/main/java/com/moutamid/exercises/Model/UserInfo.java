@@ -1,10 +1,15 @@
 package com.moutamid.exercises.Model;
 
 public class UserInfo {
-    String name;
-    String email;
-    String profile_url;
-    String id;
+  public   String name;
+    public String email;
+    public String token;
+
+    public  String profile_url;
+    public   String id;
+
+    public UserInfo() {
+    }
 
     public UserInfo(String name, String email, String id, String age, String weight, String gender) {
         this.name = name;
@@ -26,6 +31,14 @@ public class UserInfo {
     String age;
     String weight;
     String gender;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public UserInfo(String name, String email, String profile_url, String id) {
         this.name = name;

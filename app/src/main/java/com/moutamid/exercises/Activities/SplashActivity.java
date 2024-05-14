@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.AccessToken;
 import com.fxn.stash.Stash;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.ktx.Firebase;
+import com.moutamid.exercises.Authentication.LoginActivity;
 import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
@@ -30,12 +33,16 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent;
-                User user = (User) Stash.getObject("user", User.class);
-                if (user==null)
-                {intent = new Intent(SplashActivity.this, IntroActivity.class);
-
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
                 } else {
-                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                    User user = (User) Stash.getObject("user", User.class);
+                    if (user == null) {
+                        intent = new Intent(SplashActivity.this, IntroActivity.class);
+
+                    } else {
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
+                    }
                 }
 
                 startActivity(intent);

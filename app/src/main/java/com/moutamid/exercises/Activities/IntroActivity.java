@@ -1,21 +1,35 @@
 package com.moutamid.exercises.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.icu.lang.UCharacter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.faisalkhan.seekbar.bidirectionalseekbar.BiDirectionalSeekBar;
 import com.fxn.stash.Stash;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+import com.moutamid.exercises.Authentication.SignupActivity;
 import com.moutamid.exercises.DataBase.User;
 import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
@@ -25,8 +39,11 @@ import com.moutamid.exercises.databinding.ActivityIntroBinding;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class IntroActivity extends AppCompatActivity {
@@ -58,6 +75,7 @@ public class IntroActivity extends AppCompatActivity {
         binding.Lb.setBackgroundResource(R.drawable.outline_white_box);
         binding.kgText.setTextColor(getColor(R.color.white));
         binding.textLb.setTextColor(getColor(R.color.black));
+        binding.nameedt.setText(Stash.getString("profile_name"));
         binding.closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,7 +159,6 @@ public class IntroActivity extends AppCompatActivity {
     }
 
 
-
     public void lay1(View view) {
         binding.layout2.setVisibility(View.VISIBLE);
         binding.layout1.setVisibility(View.GONE);
@@ -187,21 +204,72 @@ public class IntroActivity extends AppCompatActivity {
             binding.layout3.setVisibility(View.GONE);
             binding.layout4.setVisibility(View.VISIBLE);
             binding.layout6.setVisibility(View.GONE);
+            Dialog lodingbar = new Dialog(IntroActivity.this);
+            lodingbar.setContentView(R.layout.loading);
+            Objects.requireNonNull(lodingbar.getWindow()).setBackgroundDrawable(new ColorDrawable(UCharacter.JoiningType.TRANSPARENT));
+            lodingbar.setCancelable(false);
+            lodingbar.show();
 
-            User user = new User(gender, name, selectedAge, weight,Type);
+            User user = new User(gender, name, selectedAge, weight, Type);
             Stash.put("user", user);
             Stash.put("exercise_no", 1);
             Stash.put("exercise_no", 1);
             Stash.put("Streak", 0);
             Stash.put("user_name", name);
-            Intent intent = new Intent(IntroActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("gender", gender);
+            updates.put("name", name);
+            updates.put("age", selectedAge);
+            updates.put("weight", weight);
+            updates.put("weight_type", Type);
+            FirebaseDatabase.getInstance().getReference().child("OfficeGymApp").child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    show_toast("User Profile is created successfully", 1);
+                    startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                    lodingbar.dismiss();
+                    finishAffinity();
+
+                }
+            }).addOnFailureListener(new OnFailureListener(
+
+
+
+
+            ) {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    lodingbar.dismiss();
+                    show_toast("Something went wrong. Please try again", 0);
+                }
+            });
+
         } else {
             Toast.makeText(this, "Please Enter Your Weight", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void show_toast(String message, int type) {
+        LayoutInflater inflater = getLayoutInflater();
+
+        View layout;
+        if (type == 0) {
+            layout = inflater.inflate(R.layout.toast_wrong,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+        } else {
+            layout = inflater.inflate(R.layout.toast_right,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+
+        }
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText(message);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM, 0, 10);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
 
 
 }

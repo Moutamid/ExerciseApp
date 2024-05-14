@@ -39,13 +39,13 @@ public class HomeFragment extends Fragment {
         });
         binding.streak.setText(Stash.getInt("Streak", 0)+"");
 
-        binding.exerciseLayout.setOnClickListener(new View.OnClickListener() {
+        binding.startLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                   startActivity(new Intent(getContext(), AllExercisesActivity.class));
                }
         });
-        binding.startLayout.setOnClickListener(new View.OnClickListener() {
+        binding.exerciseLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), MainMenuActivity.class));

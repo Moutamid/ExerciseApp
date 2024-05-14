@@ -13,17 +13,17 @@ import com.moutamid.exercises.R;
 
 import java.util.List;
 
-public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
+public class ExerciseBuddiesAdapter extends RecyclerView.Adapter<ExerciseBuddiesAdapter.ExerciseViewHolder> {
     private List<Exercise> exerciseList;
 
-    public ExerciseAdapter(List<Exercise> exerciseList) {
+    public ExerciseBuddiesAdapter(List<Exercise> exerciseList) {
         this.exerciseList = exerciseList;
     }
 
     @NonNull
     @Override
     public ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_track, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_buddy_track, parent, false);
         return new ExerciseViewHolder(view);
     }
     @Override
@@ -39,18 +39,20 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     static class ExerciseViewHolder extends RecyclerView.ViewHolder {
         private TextView exerciseNameTextView;
-        private TextView minutesTextView;
+        private TextView minutesTextView, user_name;
         private TextView caloriesBurnedTextView;
 
 
         ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
+            user_name = itemView.findViewById(R.id.user_name);
             exerciseNameTextView = itemView.findViewById(R.id.name);
             minutesTextView = itemView.findViewById(R.id.time);
             caloriesBurnedTextView = itemView.findViewById(R.id.caloriesBurnedTextView);
         }
 
         void bind(Exercise exercise) {
+            user_name.setText(exercise.user_name);
             exerciseNameTextView.setText(exercise.getExerciseName());
             if (exercise.getMinutes() < 1) {
                 minutesTextView.setText("Less than a minute");
@@ -61,6 +63,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             double value = exercise.getCaloriesBurned();
             String formattedValue = String.format("%.2f", value);
 
-            caloriesBurnedTextView.setText(formattedValue+ " calories");        }
+            caloriesBurnedTextView.setText(formattedValue+ " calories");
+        }
     }
 }
