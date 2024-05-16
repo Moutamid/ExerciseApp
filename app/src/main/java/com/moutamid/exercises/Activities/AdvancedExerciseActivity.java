@@ -192,58 +192,28 @@
 //}
 package com.moutamid.exercises.Activities;
 
-import static com.facebook.internal.CallbackManagerImpl.RequestCodeOffset.Message;
-
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.compose.ui.window.Notification;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.RetryPolicy;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.fxn.stash.Stash;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
-
 import com.moutamid.exercises.DataBase.User;
-import com.moutamid.exercises.MainActivity;
 import com.moutamid.exercises.R;
 import com.moutamid.exercises.Utils.ExerciseManager;
-import com.moutamid.exercises.Utils.FirebaseNotificationSender;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class ExerciseActivity extends AppCompatActivity {
+public class AdvancedExerciseActivity extends AppCompatActivity {
     private static final long START_TIME_IN_MILLIS = 60000; // 1 minute, adjust as needed
 
     private ImageView videoView;
     private ImageView play, pause;
     private TextView timerTextView, reps, next_btn, name, details, sets;
     private long startTime = System.currentTimeMillis();
-
     String videoPath;
     private Handler timerHandler = new Handler();
     double MET;
@@ -314,15 +284,15 @@ public class ExerciseActivity extends AppCompatActivity {
         switch (currentSet) {
             case 1:
                 sets.setText("One");
-                reps.setText("10");
+                reps.setText("13");
                 break;
             case 2:
                 sets.setText("Two");
-                reps.setText("9");
+                reps.setText("14");
                 break;
             case 3:
                 sets.setText("Three");
-                reps.setText("8");
+                reps.setText("15");
                 break;
         }
         switch (currentExercise) {

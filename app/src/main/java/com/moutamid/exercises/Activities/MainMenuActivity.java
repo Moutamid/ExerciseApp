@@ -25,12 +25,10 @@ public class MainMenuActivity extends AppCompatActivity {
     }
     public void start(View view) {
         ArrayList<String> tokenList = Stash.getArrayList("tokenList", String.class);
-        // Now tokenList contains all the tokens
-
         String title = "Office GYM App";
         String message = Stash.getString("profile_name")+ " challenges you to workout now!";
         FirebaseNotificationSender.sendPushNotification(tokenList, title, message);
-        //                Calendar calendar = Calendar.getInstance();
+//                Calendar calendar = Calendar.getInstance();
 //                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 //                if (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.FRIDAY) {
         int exerciseNo = Stash.getInt("exercise_no", 1);
